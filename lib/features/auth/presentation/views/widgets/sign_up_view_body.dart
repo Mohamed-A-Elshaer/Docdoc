@@ -9,6 +9,7 @@ import '../../../../../core/generated/app_colors.dart';
 import '../../../../../core/generated/app_text_styles.dart';
 import '../../../../../core/widgets/custom_button.dart';
 import '../../../../../core/widgets/custom_text_form_field.dart';
+import '../../../../../core/widgets/password_field.dart';
 import 'auth_footer.dart';
 import 'auth_header.dart';
 
@@ -45,12 +46,11 @@ late String email,password,phone;
                     hintText: 'Email',
                     textInputType: TextInputType.emailAddress,),
                   const SizedBox(height: 30,),
-                  CustomTextFormField(
+                  PasswordField(
                     onSaved: (value){
                       password=value!;
                     },
-                    hintText: 'Password',
-                    textInputType: TextInputType.visiblePassword,suffixIcon: const Icon(Icons.visibility,color: Color(0xffC2C2C2),),),
+                  ),
                   const SizedBox(height: 25,),
                   CustomButton(text: "Create Account", onPressed: (){
                     if (formKey.currentState!.validate()) {
@@ -81,3 +81,4 @@ late String email,password,phone;
     );
   }
 }
+

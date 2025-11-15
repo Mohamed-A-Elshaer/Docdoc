@@ -3,11 +3,12 @@ import 'package:docdoc/core/generated/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget{
-  const CustomTextFormField({super.key, required this.hintText, required this.textInputType,this.suffixIcon, this.onSaved});
+  const CustomTextFormField({super.key, required this.hintText, required this.textInputType,this.suffixIcon, this.onSaved,this.obsecureText=false});
 final String hintText;
 final TextInputType textInputType;
 final Widget? suffixIcon;
 final void Function(String?)? onSaved;
+final bool obsecureText;
   @override
   Widget build(BuildContext context) {
    return TextFormField(
@@ -17,6 +18,7 @@ validator: (value){
        }
 return null;
      },
+obscureText: obsecureText,
 onSaved:onSaved ,
 keyboardType: textInputType,
 decoration: InputDecoration(
