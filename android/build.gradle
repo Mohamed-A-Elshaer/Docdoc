@@ -1,3 +1,13 @@
+ext {
+    flutter = [
+        compileSdkVersion: 34,
+        minSdkVersion    : 23,
+        targetSdkVersion : 34,
+        versionCode      : 1,
+        versionName      : "1.0.0"
+    ]
+}
+
 allprojects {
     repositories {
         google()

@@ -2,7 +2,16 @@
 class Assets {
   Assets._();
 
-  static const String appLogo = 'assets/images/appLogo.svg';
-  static const String appEmblem = 'assets/images/appEmblem.svg';
+  static const String fontsInterBold = 'assets/fonts/Inter-Bold.otf';
+  static const String fontsInterMedium = 'assets/fonts/Inter-Medium.otf';
+  static const String fontsInterRegular = 'assets/fonts/Inter-Regular.otf';
+  static const String fontsInterSemiBold = 'assets/fonts/Inter-SemiBold.otf';
+  static const String imagesAppEmblem = 'assets/images/appEmblem.svg';
+  static const String imagesAppLogo = 'assets/images/appLogo.svg';
+  static const String imagesAppleLogo = 'assets/images/appleLogo.svg';
+  static const String imagesDoctor = 'assets/images/doctor.png';
+  static const String imagesFacebookLogo = 'assets/images/facebookLogo.svg';
+  static const String imagesGoogleLogo = 'assets/images/googleLogo.svg';
+  static const String imagesLinearEffect = 'assets/images/Linear Effect.png';
 
 }

@@ -1,7 +1,11 @@
+import 'package:docdoc/constants.dart';
 import 'package:docdoc/core/generated/assets.dart';
+import 'package:docdoc/core/services/shared_preferences_singelton.dart';
 import 'package:docdoc/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../auth/presentation/views/login_view.dart';
 
 class SplashViewBody extends StatefulWidget{
   const SplashViewBody({super.key});
@@ -25,8 +29,8 @@ body: Center(
   child: Stack(
     alignment: Alignment.center,
       children: [
-        SvgPicture.asset(Assets.appEmblem,width: screenWidth,fit: BoxFit.fitWidth,),
-       SvgPicture.asset(Assets.appLogo),
+        SvgPicture.asset(Assets.imagesAppEmblem,width: screenWidth,fit: BoxFit.fitWidth,),
+       SvgPicture.asset(Assets.imagesAppLogo),
 
       ],
 
@@ -38,8 +42,14 @@ body: Center(
 
   void executeNavigation() {
     Future.delayed(Duration(seconds: 3),(){
-      Navigator.pushReplacementNamed(context, onBoardingView.routeName);
-    });
+      bool isOnBoardingViewSeen=Prefs.getBool(kIsOnBoardingViewSeen);
+       if(isOnBoardingViewSeen) {
+         Navigator.pushReplacementNamed(context, LoginView.routeName);
+       }
+       else {
+         Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
+       }
+       });
     
   }
 }
