@@ -7,4 +7,6 @@ abstract class AuthRepo{
   static final SupabaseClient supabase = Supabase.instance.client;
 
   Future<Either<Failures, UserEntity>> signUpUser(String email,String password);
+  Future<Either<Failures, UserEntity>> signInUser(String email,String password);
+  Future<Either<Failures, UserEntity>> signInWithGoogle();
 }

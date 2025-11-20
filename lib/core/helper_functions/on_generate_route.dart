@@ -1,4 +1,4 @@
-import 'package:docdoc/features/auth/presentation/views/login_view.dart';
+import 'package:docdoc/features/auth/presentation/views/sign_in_view.dart';
 import 'package:docdoc/features/auth/presentation/views/sign_up_view.dart';
 import 'package:docdoc/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:docdoc/features/splash/presentation/views/splash_view.dart';
@@ -12,8 +12,8 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
     case OnBoardingView.routeName:
       return MaterialPageRoute(builder: (context)=>OnBoardingView());
 
-    case LoginView.routeName:
-      return MaterialPageRoute(builder: (context)=>LoginView());
+    case SignInView.routeName:
+      return MaterialPageRoute(builder: (context)=>SignInView());
 
     case SignUpView.routeName:
       return MaterialPageRoute(builder: (context)=>const SignUpView());

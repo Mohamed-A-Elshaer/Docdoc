@@ -1,5 +1,5 @@
-import 'package:docdoc/features/auth/presentation/cubits/signups_cubit.dart';
-import 'package:docdoc/features/auth/presentation/views/login_view.dart';
+import 'package:docdoc/features/auth/presentation/cubits/signup_cubits/signups_cubit.dart';
+import 'package:docdoc/features/auth/presentation/views/sign_in_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +7,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../../../core/generated/app_colors.dart';
 import '../../../../../core/generated/app_text_styles.dart';
+import '../../../../../core/helper_functions/build_error_bar.dart';
 import '../../../../../core/widgets/custom_button.dart';
 import '../../../../../core/widgets/custom_text_form_field.dart';
 import '../../../../../core/widgets/password_field.dart';
@@ -55,6 +56,11 @@ late String email,password,phone;
                   CustomButton(text: "Create Account", onPressed: (){
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
+                      // Validate email format - must end with '.com'
+                      if (!email.endsWith('.com')) {
+                        buildErrorBar(context, 'invalid email format!');
+                        return;
+                      }
                       context.read<SignupsCubit>().signUpUser(email, password);
 
                     } else{

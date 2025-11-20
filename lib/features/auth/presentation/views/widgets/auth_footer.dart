@@ -4,8 +4,10 @@ import 'package:docdoc/features/auth/presentation/views/sign_up_view.dart';
 import 'package:docdoc/features/auth/presentation/views/widgets/social_login_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/generated/app_text_styles.dart';
+import '../../cubits/signin_cubits/signin_cubit.dart';
 
 class AuthFooter extends StatelessWidget{
   const AuthFooter({super.key, required this.text1, required this.text2, required this.text3, this.gestureRecognizer});
@@ -45,7 +47,9 @@ children: [
   Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      SocialLoginButton(imageName: Assets.imagesGoogleLogo, height: 34, onTap: () {  },),
+      SocialLoginButton(imageName: Assets.imagesGoogleLogo, height: 34, onTap: () { 
+        context.read<SigninCubit>().signInWithGoogle();
+       },),
       const SizedBox(width: 35,),
       SocialLoginButton(imageName: Assets.imagesFacebookLogo, height: 36, onTap: () {  },),
       const SizedBox(width: 35,),

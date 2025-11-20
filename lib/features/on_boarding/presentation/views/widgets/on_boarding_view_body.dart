@@ -4,7 +4,7 @@ import 'package:docdoc/core/generated/app_text_styles.dart';
 import 'package:docdoc/core/generated/assets.dart';
 import 'package:docdoc/core/services/shared_preferences_singelton.dart';
 import 'package:docdoc/core/widgets/custom_button.dart';
-import 'package:docdoc/features/auth/presentation/views/login_view.dart';
+import 'package:docdoc/features/auth/presentation/views/sign_in_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -60,7 +60,7 @@ class OnBoardingViewBody extends StatelessWidget{
              
              CustomButton(text: "Get Started", onPressed: (){
                Prefs.setBool(kIsOnBoardingViewSeen, true);
-               Navigator.of(context).pushReplacementNamed(LoginView.routeName);
+               Navigator.of(context).pushReplacementNamed(SignInView.routeName);
 
              })
        
