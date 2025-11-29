@@ -24,7 +24,7 @@ class SignUpViewBody extends StatefulWidget{
 class _SignUpViewBodyState extends State<SignUpViewBody> {
   final GlobalKey<FormState> formKey=GlobalKey<FormState>();
   AutovalidateMode autovalidateMode=AutovalidateMode.disabled;
-late String email,password,phone;
+late String email,password;
   @override
   Widget build(BuildContext context) {
     return  Scaffold(

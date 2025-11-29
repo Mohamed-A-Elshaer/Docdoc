@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: ^2.1.0
   shared_preferences: ^2.5.3
   intl_phone_field: ^3.2.0
+  intl: ^0.20.2
   supabase_flutter: ^2.10.3
   dartz: ^0.10.1
   flutter_bloc: ^9.1.1
@@ -72,6 +73,7 @@ flutter:
     - assets/images/
     - assets/
     - assets/fonts/
+    - lib/core/generated/assets.dart
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

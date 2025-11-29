@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:docdoc/core/generated/app_colors.dart';
 import 'package:docdoc/core/generated/assets.dart';
 import 'package:docdoc/features/auth/presentation/views/sign_up_view.dart';
@@ -51,9 +53,13 @@ children: [
         context.read<SigninCubit>().signInWithGoogle();
        },),
       const SizedBox(width: 35,),
-      SocialLoginButton(imageName: Assets.imagesFacebookLogo, height: 36, onTap: () {  },),
+      SocialLoginButton(imageName: Assets.imagesFacebookLogo, height: 36, onTap: () { 
+        context.read<SigninCubit>().signInWithFacebook();
+       },),
       const SizedBox(width: 35,),
-      SocialLoginButton(imageName: Assets.imagesAppleLogo, height: 31, onTap: () {  },),
+   Platform.isIOS?
+   SocialLoginButton(imageName: Assets.imagesAppleLogo, height: 31, onTap: () {  },)
+   :  const SizedBox(),
     ],
   ),
   const SizedBox(height: 35,),

@@ -112,5 +112,37 @@ class SupabaseAuthService {
       return response.user!;
   }
 
+  Future<User> signInWithFacebook() async {
+      await AuthRepo.supabase.auth.signInWithOAuth(
+        OAuthProvider.facebook,
+        redirectTo: kIsWeb ? null : 'com.example.docdoc://login-callback',
+        authScreenLaunchMode: kIsWeb
+            ? LaunchMode.platformDefault
+            : LaunchMode.externalApplication,
+      );
+
+      final authState = await AuthRepo.supabase.auth.onAuthStateChange.firstWhere(
+        (event) => event.session?.user != null,
+      ).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw CustomException(message: 'Facebook sign-in timed out.');
+        },
+      );
+
+      final session = authState.session;
+      if (session?.user == null) {
+        throw CustomException(
+          message: 'Failed to complete Facebook sign-in. Please try again.',
+        );
+      }
+
+      return session!.user;
+  }
+
+ Future deleteUser({required userId}) async {
+   final supabase = SupabaseClient('https://kmzdvodtliieskcpjrzd.supabase.co', 'sb_secret_IU3ydlgPC-ROP37taVRKqw_USbu-0hQ');
+await supabase.auth.admin.deleteUser(userId);
+ }
 
 }

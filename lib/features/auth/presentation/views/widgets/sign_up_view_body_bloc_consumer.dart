@@ -1,3 +1,4 @@
+import 'package:docdoc/features/auth/presentation/views/fill_your_profile_view.dart';
 import 'package:docdoc/features/auth/presentation/views/widgets/sign_up_view_body.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,10 @@ class SignUpViewBodyBlocConsumer extends StatelessWidget {
           return BlocConsumer<SignupsCubit,SignupsState>(
             listener: (context, state) {
               if (state is SignupsSuccess) {
-                
+                Navigator.of(context).pushReplacementNamed(
+                  FillYourProfileView.routeName,
+                  arguments: state.userEntity,
+                );
               }
               if (state is SignupsFailure) {
                 buildErrorBar(context, state.message);

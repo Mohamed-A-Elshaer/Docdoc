@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SignInView extends StatelessWidget {
   static const routeName = 'login';
 
+  const SignInView({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -6,12 +6,14 @@ class Assets {
   static const String fontsInterMedium = 'assets/fonts/Inter-Medium.otf';
   static const String fontsInterRegular = 'assets/fonts/Inter-Regular.otf';
   static const String fontsInterSemiBold = 'assets/fonts/Inter-SemiBold.otf';
+  static const String generatedAssets = 'lib/core/generated/assets.dart';
   static const String imagesAppEmblem = 'assets/images/appEmblem.svg';
   static const String imagesAppLogo = 'assets/images/appLogo.svg';
   static const String imagesAppleLogo = 'assets/images/appleLogo.svg';
   static const String imagesDoctor = 'assets/images/doctor.png';
   static const String imagesFacebookLogo = 'assets/images/facebookLogo.svg';
   static const String imagesGoogleLogo = 'assets/images/googleLogo.svg';
-  static const String imagesLinearEffect = 'assets/images/Linear Effect.png';
+  static const String imagesLinearEffect = 'assets/images/linearEffect.png';
+  static const String imagesProfAvatar = 'assets/images/profAvatar.png';
 
 }

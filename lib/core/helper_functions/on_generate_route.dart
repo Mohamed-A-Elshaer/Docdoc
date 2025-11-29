@@ -1,3 +1,5 @@
+import 'package:docdoc/features/auth/domain/entities/user_entity.dart';
+import 'package:docdoc/features/auth/presentation/views/fill_your_profile_view.dart';
 import 'package:docdoc/features/auth/presentation/views/sign_in_view.dart';
 import 'package:docdoc/features/auth/presentation/views/sign_up_view.dart';
 import 'package:docdoc/features/on_boarding/presentation/views/on_boarding_view.dart';
@@ -13,11 +15,14 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
       return MaterialPageRoute(builder: (context)=>OnBoardingView());
 
     case SignInView.routeName:
-      return MaterialPageRoute(builder: (context)=>SignInView());
+      return MaterialPageRoute(builder: (context)=>const SignInView());
 
     case SignUpView.routeName:
       return MaterialPageRoute(builder: (context)=>const SignUpView());
 
+    case FillYourProfileView.routeName:
+      final user = settings.arguments as UserEntity;
+      return MaterialPageRoute(builder: (context)=>FillYourProfileView(userEntity: user,));
 
     default:
       return MaterialPageRoute(builder: (context)=>const Scaffold());
