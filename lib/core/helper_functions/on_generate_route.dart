@@ -6,6 +6,8 @@ import 'package:docdoc/features/on_boarding/presentation/views/on_boarding_view.
 import 'package:docdoc/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/home/presentation/views/home_view.dart';
+
 Route<dynamic> onGenerateRoute(RouteSettings settings){
   switch(settings.name){
     case SplashView.routeName:
@@ -23,6 +25,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
     case FillYourProfileView.routeName:
       final user = settings.arguments as UserEntity;
       return MaterialPageRoute(builder: (context)=>FillYourProfileView(userEntity: user,));
+
+    case HomeView.routeName:
+      return MaterialPageRoute(builder: (context)=>const HomeView());
 
     default:
       return MaterialPageRoute(builder: (context)=>const Scaffold());

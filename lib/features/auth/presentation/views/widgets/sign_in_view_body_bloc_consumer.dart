@@ -1,5 +1,6 @@
 import 'package:docdoc/features/auth/presentation/views/fill_your_profile_view.dart';
 import 'package:docdoc/features/auth/presentation/views/widgets/sign_in_view_body.dart';
+import 'package:docdoc/features/home/presentation/views/home_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -34,6 +35,7 @@ class SignInViewBodyBlocConsumer extends StatelessWidget {
                   arguments: signedInUser,
                 );
               }
+              Navigator.pushNamed(context, HomeView.routeName);
             }
             if (state is SigninFailure) {
               buildErrorBar(context, state.message);

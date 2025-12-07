@@ -2,6 +2,7 @@ import 'package:docdoc/core/helper_functions/on_generate_route.dart';
 import 'package:docdoc/core/services/custom_bloc_observer.dart';
 import 'package:docdoc/core/services/get_it_service.dart';
 import 'package:docdoc/core/services/shared_preferences_singelton.dart';
+import 'package:docdoc/features/home/presentation/views/home_view.dart';
 import 'package:docdoc/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class Docdoc extends StatelessWidget{
   Widget build(BuildContext context) {
   return MaterialApp(
 onGenerateRoute: onGenerateRoute,
-    initialRoute: SplashView.routeName,
+    initialRoute: HomeView.routeName,
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       scaffoldBackgroundColor: Colors.white,

@@ -10,10 +10,25 @@ class Assets {
   static const String imagesAppEmblem = 'assets/images/appEmblem.svg';
   static const String imagesAppLogo = 'assets/images/appLogo.svg';
   static const String imagesAppleLogo = 'assets/images/appleLogo.svg';
+  static const String imagesBaby = 'assets/images/baby.png';
+  static const String imagesBrain = 'assets/images/brain.png';
+  static const String imagesCalendarIcon = 'assets/images/calendarIcon.svg';
+  static const String imagesCalendarIconActive = 'assets/images/calendarIconActive.svg';
   static const String imagesDoctor = 'assets/images/doctor.png';
+  static const String imagesDoctorVector = 'assets/images/doctor_vector.png';
   static const String imagesFacebookLogo = 'assets/images/facebookLogo.svg';
   static const String imagesGoogleLogo = 'assets/images/googleLogo.svg';
+  static const String imagesHomeIcon = 'assets/images/homeIcon.svg';
+  static const String imagesHomeIconActive = 'assets/images/homeIconActive.svg';
+  static const String imagesHomePageBlueContainerPattern = 'assets/images/homePageBlueContainerPattern.png';
+  static const String imagesKidneys = 'assets/images/kidneys.png';
   static const String imagesLinearEffect = 'assets/images/linearEffect.png';
+  static const String imagesMessageIcon = 'assets/images/messageIcon.svg';
+  static const String imagesMessageIconActive = 'assets/images/messageIconActive.svg';
+  static const String imagesNotificationIcon = 'assets/images/notificationIcon.svg';
+  static const String imagesNurse = 'assets/images/nurse.png';
   static const String imagesProfAvatar = 'assets/images/profAvatar.png';
+  static const String imagesRandy = 'assets/images/randy.png';
+  static const String imagesSearchIcon = 'assets/images/searchIcon.svg';
 
 }
