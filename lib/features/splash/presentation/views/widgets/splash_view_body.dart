@@ -41,7 +41,7 @@ body: Center(
   }
 
   void executeNavigation() {
-    Future.delayed(Duration(seconds: 3),(){
+    Future.delayed(const Duration(seconds: 3),(){
       bool isOnBoardingViewSeen=Prefs.getBool(kIsOnBoardingViewSeen);
        if(isOnBoardingViewSeen) {
          Navigator.pushReplacementNamed(context, SignInView.routeName);

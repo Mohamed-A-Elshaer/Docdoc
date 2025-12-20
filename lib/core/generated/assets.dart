@@ -14,10 +14,15 @@ class Assets {
   static const String imagesBrain = 'assets/images/brain.png';
   static const String imagesCalendarIcon = 'assets/images/calendarIcon.svg';
   static const String imagesCalendarIconActive = 'assets/images/calendarIconActive.svg';
+  static const String imagesCardiology = 'assets/images/Cardiology.png';
+  static const String imagesDefaultAvatar = 'assets/images/defaultAvatar.png';
+  static const String imagesDermatology = 'assets/images/dermatology.png';
   static const String imagesDoctor = 'assets/images/doctor.png';
   static const String imagesDoctorVector = 'assets/images/doctor_vector.png';
   static const String imagesFacebookLogo = 'assets/images/facebookLogo.svg';
+  static const String imagesGastrenterology = 'assets/images/gastrenterology.png';
   static const String imagesGoogleLogo = 'assets/images/googleLogo.svg';
+  static const String imagesGynecology = 'assets/images/gynecology.png';
   static const String imagesHomeIcon = 'assets/images/homeIcon.svg';
   static const String imagesHomeIconActive = 'assets/images/homeIconActive.svg';
   static const String imagesHomePageBlueContainerPattern = 'assets/images/homePageBlueContainerPattern.png';
@@ -27,8 +32,12 @@ class Assets {
   static const String imagesMessageIconActive = 'assets/images/messageIconActive.svg';
   static const String imagesNotificationIcon = 'assets/images/notificationIcon.svg';
   static const String imagesNurse = 'assets/images/nurse.png';
+  static const String imagesOphthalmology = 'assets/images/ophthalmology.png';
+  static const String imagesOrthopedics = 'assets/images/orthopedics.png';
   static const String imagesProfAvatar = 'assets/images/profAvatar.png';
+  static const String imagesPsychiatry = 'assets/images/psychiatry.png';
   static const String imagesRandy = 'assets/images/randy.png';
   static const String imagesSearchIcon = 'assets/images/searchIcon.svg';
+  static const String imagesSortIcon = 'assets/images/sortIcon.svg';
 
 }

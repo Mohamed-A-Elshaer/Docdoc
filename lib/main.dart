@@ -3,7 +3,6 @@ import 'package:docdoc/core/services/custom_bloc_observer.dart';
 import 'package:docdoc/core/services/get_it_service.dart';
 import 'package:docdoc/core/services/shared_preferences_singelton.dart';
 import 'package:docdoc/features/home/presentation/views/home_view.dart';
-import 'package:docdoc/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 class OnBoardingView extends StatelessWidget{
 
   static const routeName="onBoarding";
+
+  const OnBoardingView({super.key});
   @override
   Widget build(BuildContext context) {
   return OnBoardingViewBody();

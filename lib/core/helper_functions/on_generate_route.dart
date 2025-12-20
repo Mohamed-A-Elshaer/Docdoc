@@ -7,6 +7,9 @@ import 'package:docdoc/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/home/presentation/views/home_view.dart';
+import '../../features/recommended_doctors/presentation/views/recommended_doctors_view.dart';
+import '../../features/speciality/presentation/views/doctor_speciality_view.dart';
+import '../../test_post.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings){
   switch(settings.name){
@@ -14,7 +17,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
       return MaterialPageRoute(builder: (context)=>const SplashView());
 
     case OnBoardingView.routeName:
-      return MaterialPageRoute(builder: (context)=>OnBoardingView());
+      return MaterialPageRoute(builder: (context)=>const OnBoardingView());
 
     case SignInView.routeName:
       return MaterialPageRoute(builder: (context)=>const SignInView());
@@ -28,6 +31,19 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
 
     case HomeView.routeName:
       return MaterialPageRoute(builder: (context)=>const HomeView());
+
+    case DoctorSpecialityView.routeName:
+      return MaterialPageRoute(builder: (context)=>const DoctorSpecialityView());
+
+    case RecommendedDoctorsView.routeName:
+      final speciality = settings.arguments as String?;
+      return MaterialPageRoute(
+        builder: (context) => RecommendedDoctorsView(initialSpeciality: speciality),
+        settings: settings,
+      );
+
+    case TestPost.routeName:
+      return MaterialPageRoute(builder: (context)=>const TestPost());
 
     default:
       return MaterialPageRoute(builder: (context)=>const Scaffold());
