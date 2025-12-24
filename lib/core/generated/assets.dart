@@ -28,6 +28,7 @@ class Assets {
   static const String imagesHomePageBlueContainerPattern = 'assets/images/homePageBlueContainerPattern.png';
   static const String imagesKidneys = 'assets/images/kidneys.png';
   static const String imagesLinearEffect = 'assets/images/linearEffect.png';
+  static const String imagesMap = 'assets/images/map.png';
   static const String imagesMessageIcon = 'assets/images/messageIcon.svg';
   static const String imagesMessageIconActive = 'assets/images/messageIconActive.svg';
   static const String imagesNotificationIcon = 'assets/images/notificationIcon.svg';

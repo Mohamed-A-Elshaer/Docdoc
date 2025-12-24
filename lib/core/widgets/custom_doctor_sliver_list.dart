@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:docdoc/core/api_services/get_all_doctor_service.dart';
 import 'package:docdoc/core/helper_models/doctor_model.dart';
+import 'package:docdoc/features/aboutDoctor/presentation/views/about_doctor_view.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/custom_doctor_info_model.dart';
 
@@ -108,13 +109,23 @@ class CustomDoctorSliverList extends StatelessWidget{
             return SliverList(
               delegate: SliverChildBuilderDelegate(
                     (context, index) {
+                  final doctor = filteredAndSortedDoctors[index];
                   return Padding(
                     padding: EdgeInsets.only(
                       bottom: index < filteredAndSortedDoctors.length - 1 ? 26 : 0,
                     ),
-                    child: CustomDoctorInfoModel(
-                      doctorModel: filteredAndSortedDoctors[index],
-                      isRecommendedView: isRecommendedView,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AboutDoctorView.routeName,
+                          arguments: doctor,
+                        );
+                      },
+                      child: CustomDoctorInfoModel(
+                        doctorModel: doctor,
+                        isRecommendedView: isRecommendedView,
+                      ),
                     ),
                   );
                 },

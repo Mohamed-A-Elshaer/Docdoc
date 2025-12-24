@@ -4,10 +4,20 @@ import 'package:flutter/material.dart';
 import '../generated/assets.dart';
 
 class CustomDoctorInfoModel extends StatelessWidget{
-  const CustomDoctorInfoModel({super.key,required this.doctorModel,this.isRecommendedView=false});
+  const CustomDoctorInfoModel({
+    super.key,
+    required this.doctorModel,
+    this.isRecommendedView=false,
+    this.height,
+    this.width,
+    this.isAboutDoctorView=false,
+  });
 
 final DoctorModel doctorModel;
 final bool isRecommendedView;
+final double? height;
+final double? width;
+final bool isAboutDoctorView;
 
   static List<Map<String, dynamic>> getTestDoctors() {
     return [
@@ -99,72 +109,96 @@ final bool isRecommendedView;
            ),
              child: Padding(
                padding: const EdgeInsets.all(8.0),
-               child: buildRow(),
+               child: buildRow(height: height,width: width),
              ),
           ),
         )
 
-        : buildRow();
+        : buildRow(height: height,width: width);
   }
 
-  Row buildRow() {
+  Row buildRow({double? height,double? width}) {
     return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      SizedBox(
-        width: 110,
-        height: 110,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Image.network(
-            doctorModel.photo,
-            fit: BoxFit.cover,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return const ColoredBox(
-                color: Color(0xFFE0E0E0),
-              );
-            },
-            errorBuilder: (context, error, stackTrace) {
-              return Image.asset(
-                Assets.imagesDefaultAvatar,
-                fit: BoxFit.cover,
-              );
-            },
+      crossAxisAlignment: isAboutDoctorView? CrossAxisAlignment.center :CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width:width?? 110,
+          height: height??110,
+          child: isAboutDoctorView? Transform.translate(
+              offset: const Offset(0, 8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  doctorModel.photo,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const ColoredBox(
+                      color: Color(0xFFE0E0E0),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      Assets.imagesDefaultAvatar,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
+              ),
+            )
+          :
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(
+              doctorModel.photo,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const ColoredBox(
+                  color: Color(0xFFE0E0E0),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  Assets.imagesDefaultAvatar,
+                  fit: BoxFit.cover,
+                );
+              },
+            ),
           ),
         ),
-      ),
-      const SizedBox(width: 16),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 17.5,),
-            Text(
-              doctorModel.name,
-              style: TextStyles.bold16.copyWith(color: const Color(0xff242424)),
-            ),
-            const SizedBox(height: 8),
-            Text(
-             '${doctorModel.specialization.name} | ${doctorModel.degree}',
-              style: TextStyles.medium12.copyWith(color: const Color(0xff757575)),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                const Icon(Icons.star, color: Color(0xffFFD600), size: 18.45),
-                const SizedBox(width: 2.91),
-                Text(
-                  '${doctorModel.ratingModel.rate} (${doctorModel.ratingModel.count} reviews)',
-                  style: TextStyles.regular12.copyWith(color: const Color(0xff757575)),
-                ),
-              ],
-            ),
-          ],
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 17.5,),
+              Text(
+                doctorModel.name,
+                style: TextStyles.bold16.copyWith(color: const Color(0xff242424)),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${doctorModel.specialization.name} | ${doctorModel.degree}',
+                style: TextStyles.medium12.copyWith(color: const Color(0xff757575)),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Icon(Icons.star, color: Color(0xffFFD600), size: 18.45),
+                  const SizedBox(width: 2.91),
+                  Text(
+                    '${doctorModel.ratingModel.rate} (${doctorModel.ratingModel.count} reviews)',
+                    style: TextStyles.regular12.copyWith(color: const Color(0xff757575)),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+
   }
 
 }

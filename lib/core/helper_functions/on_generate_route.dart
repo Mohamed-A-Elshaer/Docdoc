@@ -1,3 +1,4 @@
+import 'package:docdoc/core/helper_models/doctor_model.dart';
 import 'package:docdoc/features/auth/domain/entities/user_entity.dart';
 import 'package:docdoc/features/auth/presentation/views/fill_your_profile_view.dart';
 import 'package:docdoc/features/auth/presentation/views/sign_in_view.dart';
@@ -6,6 +7,8 @@ import 'package:docdoc/features/on_boarding/presentation/views/on_boarding_view.
 import 'package:docdoc/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/aboutDoctor/presentation/views/about_doctor_view.dart';
+import '../../features/bookAppoint/presentation/views/book_appoint_view.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/recommended_doctors/presentation/views/recommended_doctors_view.dart';
 import '../../features/speciality/presentation/views/doctor_speciality_view.dart';
@@ -41,6 +44,17 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
         builder: (context) => RecommendedDoctorsView(initialSpeciality: speciality),
         settings: settings,
       );
+
+    case AboutDoctorView.routeName:
+      final doctorModel = settings.arguments as DoctorModel?;
+      return MaterialPageRoute(
+        builder: (context) => AboutDoctorView(doctorModel: doctorModel),
+        settings: settings,
+      );
+
+
+    case BookAppointView.routeName:
+      return MaterialPageRoute(builder: (context)=>const BookAppointView());
 
     case TestPost.routeName:
       return MaterialPageRoute(builder: (context)=>const TestPost());
