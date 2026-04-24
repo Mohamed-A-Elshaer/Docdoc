@@ -1,10 +1,16 @@
-import 'package:docdoc/core/generated/app_colors.dart';
+import 'package:docdoc/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget{
-  const CustomButton({super.key,required this.text,required this.onPressed});
+  const CustomButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+  });
   final String text;
   final VoidCallback onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +26,25 @@ class CustomButton extends StatelessWidget{
                     borderRadius: BorderRadius.circular(16)
                 )
             ),
-            onPressed: onPressed,
-            child: Text(text,
-              style: const TextStyle(color: Colors.white,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16),)),
+            onPressed: isLoading ? null : onPressed,
+            child: isLoading
+                ? const SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.4,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  )
+                : Text(
+                    text,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  )),
 
       ),
     );

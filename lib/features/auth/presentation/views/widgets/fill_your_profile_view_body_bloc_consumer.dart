@@ -19,9 +19,8 @@ class FillYourProfileViewBodyBlocConsumer extends StatelessWidget {
     return BlocConsumer<FillYourProfileCubit, FillYourProfileState>(
         listener: (context, state) {
           if (state is FillYourProfileSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Profile saved successfully. Please login again to continue.')),
-            );
+            buildErrorBar(context, 'Profile saved successfully. Please login to continue.');
+
             Navigator.of(context).pushNamedAndRemoveUntil(
               SignInView.routeName,
               (route) => false,

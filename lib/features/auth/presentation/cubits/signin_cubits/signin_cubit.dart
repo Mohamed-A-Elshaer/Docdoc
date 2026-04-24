@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 import '../../../domain/entities/user_entity.dart';
@@ -10,9 +11,9 @@ class SigninCubit extends Cubit<SigninState> {
   SigninCubit(this.authRepo) : super(SigninInitial());
   final AuthRepo authRepo;
  
-  Future<void> signInUser(String email,String password)async {
+  Future<void> signInUser(String email,String password,BuildContext context)async {
     emit(SigninLoading());
-    final result=await authRepo.signInUser(email, password);
+    final result=await authRepo.signInUser(email, password,context);
     result.fold(
         (failure)=> emit(SigninFailure(message: failure.message)),
         (userEntity)=>emit(SigninSuccess(userEntity: userEntity)));

@@ -17,4 +17,16 @@ _instance.setBool(key, value);
 
   }
 
+  static Future<void> setString(String key, String value) async {
+    await _instance.setString(key, value);
+  }
+
+  static String? getString(String key) {
+    return _instance.getString(key);
+  }
+
+  static Future<void> remove(String key) async {
+    await _instance.remove(key);
+  }
+
 }

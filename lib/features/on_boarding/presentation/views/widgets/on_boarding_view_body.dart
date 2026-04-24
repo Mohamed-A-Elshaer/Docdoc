@@ -1,7 +1,7 @@
 import 'package:docdoc/constants.dart';
-import 'package:docdoc/core/generated/app_colors.dart';
-import 'package:docdoc/core/generated/app_text_styles.dart';
-import 'package:docdoc/core/generated/assets.dart';
+import 'package:docdoc/core/utils/app_colors.dart';
+import 'package:docdoc/core/utils/app_text_styles.dart';
+import 'package:docdoc/core/utils/assets.dart';
 import 'package:docdoc/core/services/shared_preferences_singelton.dart';
 import 'package:docdoc/core/widgets/custom_button.dart';
 import 'package:docdoc/features/auth/presentation/views/sign_in_view.dart';

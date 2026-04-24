@@ -1,5 +1,5 @@
-import 'package:docdoc/core/generated/app_colors.dart';
-import 'package:docdoc/core/generated/app_text_styles.dart';
+import 'package:docdoc/core/utils/app_colors.dart';
+import 'package:docdoc/core/utils/app_text_styles.dart';
 import 'package:docdoc/features/auth/presentation/views/widgets/auth_footer.dart';
 import 'package:docdoc/features/auth/presentation/views/widgets/auth_header.dart';
 import 'package:docdoc/core/widgets/custom_button.dart';
@@ -67,16 +67,25 @@ body: SafeArea(
               ),
             ),
             const SizedBox(height: 25,),
-            CustomButton(text: "Login", onPressed: (){
-              if (formKey.currentState!.validate()) {
-                formKey.currentState!.save();
-                context.read<SigninCubit>().signInUser(email, password);
-              } else {
-                setState(() {
-                  autovalidateMode=AutovalidateMode.always;
-                });
-              }
-            }),
+            BlocBuilder<SigninCubit, SigninState>(
+              builder: (context, state) {
+                final isLoading = state is SigninLoading;
+                return CustomButton(
+                  text: "Login",
+                  isLoading: isLoading,
+                  onPressed: (){
+                    if (formKey.currentState!.validate()) {
+                      formKey.currentState!.save();
+                      context.read<SigninCubit>().signInUser(email, password,context);
+                    } else {
+                      setState(() {
+                        autovalidateMode=AutovalidateMode.always;
+                      });
+                    }
+                  },
+                );
+              },
+            ),
             AuthFooter(text1: 'By logging, you agree to our ',
               text2: "Don't have an account? ",
               text3: 'Sign Up',

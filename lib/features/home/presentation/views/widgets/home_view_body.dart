@@ -1,6 +1,6 @@
-import 'package:docdoc/core/generated/app_colors.dart';
-import 'package:docdoc/core/generated/app_text_styles.dart';
-import 'package:docdoc/core/generated/assets.dart';
+import 'package:docdoc/core/utils/app_colors.dart';
+import 'package:docdoc/core/utils/app_text_styles.dart';
+import 'package:docdoc/core/utils/assets.dart';
 import 'package:docdoc/features/home/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:docdoc/core/widgets/custom_speciality_icon.dart';
 import 'package:docdoc/features/home/presentation/views/widgets/custom_home_app_bar.dart';
@@ -8,7 +8,7 @@ import 'package:docdoc/features/home/presentation/views/widgets/see_all_bar.dart
 import 'package:docdoc/features/recommended_doctors/presentation/views/recommended_doctors_view.dart';
 import 'package:docdoc/features/speciality/presentation/views/doctor_speciality_view.dart';
 import 'package:flutter/material.dart';
-import '../../../../../core/widgets/custom_doctor_sliver_list.dart';
+import 'home_doctor_sliver_list.dart';
 import '../../../../../core/widgets/top_page_icon.dart';
 
 class HomeViewBody extends StatefulWidget{
@@ -177,7 +177,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 16,),
                   ),
-                  const CustomDoctorSliverList(),
+                  const HomeDoctorSliverList(),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 24,),
                   ),

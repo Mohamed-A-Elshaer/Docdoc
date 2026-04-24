@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../generated/app_colors.dart';
-import '../generated/app_text_styles.dart';
+import '../utils/app_colors.dart';
+import '../utils/app_text_styles.dart';
 import 'custom_text_form_field.dart';
 
 class CustomDatePickerTextFormField extends StatefulWidget {

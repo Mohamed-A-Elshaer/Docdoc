@@ -1,7 +1,7 @@
-import 'package:docdoc/core/generated/app_text_styles.dart';
+import 'package:docdoc/core/utils/app_text_styles.dart';
 import 'package:docdoc/core/helper_models/doctor_model.dart';
 import 'package:flutter/material.dart';
-import '../generated/assets.dart';
+import '../utils/assets.dart';
 
 class CustomDoctorInfoModel extends StatelessWidget{
   const CustomDoctorInfoModel({
@@ -176,6 +176,8 @@ final bool isAboutDoctorView;
               Text(
                 doctorModel.name,
                 style: TextStyles.bold16.copyWith(color: const Color(0xff242424)),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 8),
               Text(

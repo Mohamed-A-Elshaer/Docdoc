@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:docdoc/core/generated/app_colors.dart';
-import 'package:docdoc/core/generated/assets.dart';
+import 'package:docdoc/core/utils/app_colors.dart';
+import 'package:docdoc/core/utils/assets.dart';
 import 'package:docdoc/features/auth/presentation/views/sign_up_view.dart';
 import 'package:docdoc/features/auth/presentation/views/widgets/social_login_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/generated/app_text_styles.dart';
+import '../../../../../core/utils/app_text_styles.dart';
 import '../../cubits/signin_cubits/signin_cubit.dart';
 
 class AuthFooter extends StatelessWidget{

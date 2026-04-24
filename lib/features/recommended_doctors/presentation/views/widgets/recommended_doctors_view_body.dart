@@ -1,14 +1,13 @@
 import 'dart:developer';
-
-import 'package:docdoc/core/generated/assets.dart';
 import 'package:docdoc/core/widgets/custom_app_bar.dart';
-import 'package:docdoc/core/widgets/custom_search_field.dart';
+import 'package:docdoc/features/doctor_discovery/domain/entities/doctor_filter_entity.dart';
 import 'package:docdoc/core/widgets/top_page_icon.dart';
-import 'package:docdoc/core/widgets/custom_pop_up_action_card.dart';
+import 'package:docdoc/features/doctor_discovery/presentation/widgets/doctor_filter_button.dart';
+import 'package:docdoc/features/doctor_discovery/presentation/widgets/doctor_search_bar.dart';
+import 'package:docdoc/features/doctor_discovery/presentation/widgets/doctors_sliver_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../../../../../core/widgets/custom_doctor_sliver_list.dart';
+import '../../../../doctor_discovery/data/models/doctor_discovery_query.dart';
 
 class RecommendedDoctorsViewBody extends StatefulWidget{
    const RecommendedDoctorsViewBody({super.key, this.initialSpeciality});
@@ -22,16 +21,18 @@ class RecommendedDoctorsViewBody extends StatefulWidget{
 class _RecommendedDoctorsViewBodyState extends State<RecommendedDoctorsViewBody> {
   final ScrollController controller = ScrollController();
   final TextEditingController searchController = TextEditingController();
-  String searchQuery = '';
-  String? selectedSpeciality;
-  String? selectedRating;
+  DoctorDiscoveryQuery query = const DoctorDiscoveryQuery();
 
   @override
   void initState() {
     super.initState();
-    // Initialize selectedSpeciality from the initialSpeciality parameter
-    selectedSpeciality = widget.initialSpeciality;
-    log('RecommendedDoctorsViewBody initialized with speciality: $selectedSpeciality');
+    query = query.copyWith(
+      filter: DoctorFilterEntity(selectedSpeciality: widget.initialSpeciality),
+    );
+    log(
+      'RecommendedDoctorsViewBody initialized with speciality: '
+      '${query.filter.selectedSpeciality}',
+    );
   }
 
   @override
@@ -58,44 +59,29 @@ class _RecommendedDoctorsViewBodyState extends State<RecommendedDoctorsViewBody>
              child: Row(
                children: [
                Expanded(
-                 child: CustomSearchField(
-                   hintText: 'Search',
+                child: DoctorSearchBar(
                    controller: searchController,
                    onChanged: (value) {
                      setState(() {
-                       searchQuery = value;
+                       query = query.copyWith(searchQuery: value);
                      });
                    },
-                   prefixIcon: SvgPicture.asset(
-                     Assets.imagesSearchIcon,
-                     height: 24,
-                     width: 24,
-                     color: const Color(0xffC2C2C2,),
-                   fit: BoxFit.scaleDown,),
                  ),
                ),
                  if (widget.initialSpeciality == null) ...[
                    const SizedBox(width: 12,),
-                   IconButton(
-                       onPressed: (){
-                         showModalBottomSheet(
-                           context: context,
-                           backgroundColor: Colors.transparent,
-                           barrierColor: const Color(0xff242424).withOpacity(0.3),
-                           isDismissible: true,
-                           isScrollControlled: true,
-                           builder: (context) => CustomPopUpActionCard(
-                             title: 'Sort',
-                             onDone: (speciality, rating) {
-                               setState(() {
-                                 selectedSpeciality = speciality;
-                                 selectedRating = rating;
-                               });
-                             },
-                           ),
-                         );
-                       },
-                       icon:SvgPicture.asset(Assets.imagesSortIcon,height: 24,width: 24,)),
+                  DoctorFilterButton(
+                    onDone: (speciality, rating) {
+                      setState(() {
+                        query = query.copyWith(
+                          filter: DoctorFilterEntity(
+                            selectedSpeciality: speciality,
+                            selectedRating: rating,
+                          ),
+                        );
+                      });
+                    },
+                  ),
                  ],
                ],
              ),
@@ -105,11 +91,9 @@ class _RecommendedDoctorsViewBodyState extends State<RecommendedDoctorsViewBody>
            child: SizedBox(height: 24,),
          ),
 
-         CustomDoctorSliverList(
+        DoctorsSliverList(
            isRecommendedView: true,
-           searchQuery: searchQuery,
-           selectedSpeciality: selectedSpeciality,
-           selectedRating: selectedRating,
+           query: query,
          ),
 
        ],

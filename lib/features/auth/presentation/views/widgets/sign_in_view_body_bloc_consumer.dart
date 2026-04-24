@@ -3,7 +3,6 @@ import 'package:docdoc/features/auth/presentation/views/widgets/sign_in_view_bod
 import 'package:docdoc/features/home/presentation/views/home_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../../../core/helper_functions/build_error_bar.dart';
 import '../../cubits/signin_cubits/signin_cubit.dart';
@@ -18,24 +17,23 @@ class SignInViewBodyBlocConsumer extends StatelessWidget {
       builder: (context) {
         return BlocConsumer<SigninCubit,SigninState>(
           builder: (BuildContext context, state) {
-            return ModalProgressHUD(
-                inAsyncCall: state is SigninLoading? true:false,
-                child: const SignInViewBody());
+            return const SignInViewBody();
           },
           listener: (BuildContext context, Object? state) {
             if (state is SigninSuccess) {
               final signedInUser = state.userEntity;
               final missingProfileData = signedInUser.name == null ||
                   signedInUser.phone == null ||
-                  signedInUser.birthdate == null;
+                  signedInUser.birthdate == null||signedInUser.gender == null;
               if (missingProfileData) {
                 Navigator.pushReplacementNamed(
                   context,
                   FillYourProfileView.routeName,
                   arguments: signedInUser,
                 );
+                return;
               }
-              Navigator.pushNamed(context, HomeView.routeName);
+              Navigator.pushReplacementNamed(context, HomeView.routeName);
             }
             if (state is SigninFailure) {
               buildErrorBar(context, state.message);

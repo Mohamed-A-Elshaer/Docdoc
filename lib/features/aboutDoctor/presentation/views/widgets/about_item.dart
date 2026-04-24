@@ -1,4 +1,4 @@
-import 'package:docdoc/core/generated/app_text_styles.dart';
+import 'package:docdoc/core/utils/app_text_styles.dart';
 import 'package:docdoc/core/helper_models/doctor_model.dart';
 import 'package:flutter/cupertino.dart';
 

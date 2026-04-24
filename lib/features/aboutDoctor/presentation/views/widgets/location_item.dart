@@ -1,8 +1,8 @@
-import 'package:docdoc/core/generated/assets.dart';
+import 'package:docdoc/core/utils/assets.dart';
 import 'package:docdoc/core/helper_models/doctor_model.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../../../core/generated/app_text_styles.dart';
+import '../../../../../core/utils/app_text_styles.dart';
 
 class LocationItem extends StatelessWidget{
   const LocationItem({super.key,required this.doctorModel});

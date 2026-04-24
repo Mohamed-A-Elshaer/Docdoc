@@ -6,14 +6,22 @@ class Assets {
   static const String fontsInterMedium = 'assets/fonts/Inter-Medium.otf';
   static const String fontsInterRegular = 'assets/fonts/Inter-Regular.otf';
   static const String fontsInterSemiBold = 'assets/fonts/Inter-SemiBold.otf';
-  static const String generatedAssets = 'lib/core/generated/assets.dart';
+  static const String imagesAmericanExpress = 'assets/images/americanExpress.png';
   static const String imagesAppEmblem = 'assets/images/appEmblem.svg';
   static const String imagesAppLogo = 'assets/images/appLogo.svg';
   static const String imagesAppleLogo = 'assets/images/appleLogo.svg';
+  static const String imagesAppointCall = 'assets/images/appointCall.png';
+  static const String imagesAppointInPerson = 'assets/images/appointInPerson.png';
+  static const String imagesAppointTypeIcon = 'assets/images/appointTypeIcon.png';
+  static const String imagesAppointVideoCall = 'assets/images/appointVideoCall.png';
   static const String imagesBaby = 'assets/images/baby.png';
+  static const String imagesBarclays = 'assets/images/barclays.png';
+  static const String imagesBookingConfirmed = 'assets/images/bookingConfirmed.svg';
   static const String imagesBrain = 'assets/images/brain.png';
   static const String imagesCalendarIcon = 'assets/images/calendarIcon.svg';
   static const String imagesCalendarIconActive = 'assets/images/calendarIconActive.svg';
+  static const String imagesCalenderBookingIcon = 'assets/images/calenderBookingIcon.png';
+  static const String imagesCapitalOne = 'assets/images/capitalOne.png';
   static const String imagesCardiology = 'assets/images/Cardiology.png';
   static const String imagesDefaultAvatar = 'assets/images/defaultAvatar.png';
   static const String imagesDermatology = 'assets/images/dermatology.png';
@@ -29,16 +37,19 @@ class Assets {
   static const String imagesKidneys = 'assets/images/kidneys.png';
   static const String imagesLinearEffect = 'assets/images/linearEffect.png';
   static const String imagesMap = 'assets/images/map.png';
+  static const String imagesMastercard = 'assets/images/mastercard.png';
   static const String imagesMessageIcon = 'assets/images/messageIcon.svg';
   static const String imagesMessageIconActive = 'assets/images/messageIconActive.svg';
   static const String imagesNotificationIcon = 'assets/images/notificationIcon.svg';
   static const String imagesNurse = 'assets/images/nurse.png';
   static const String imagesOphthalmology = 'assets/images/ophthalmology.png';
   static const String imagesOrthopedics = 'assets/images/orthopedics.png';
+  static const String imagesPaypal = 'assets/images/paypal.png';
   static const String imagesProfAvatar = 'assets/images/profAvatar.png';
   static const String imagesPsychiatry = 'assets/images/psychiatry.png';
   static const String imagesRandy = 'assets/images/randy.png';
   static const String imagesSearchIcon = 'assets/images/searchIcon.svg';
   static const String imagesSortIcon = 'assets/images/sortIcon.svg';
+  static const String utilsAssets = 'lib/core/utils/assets.dart';
 
 }

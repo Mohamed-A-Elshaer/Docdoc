@@ -8,6 +8,9 @@ class UserModel extends UserEntity{
     super.name,
     super.phone,
     super.birthdate,
+    super.gender,
+    super.apiUserId,
+    super.isProfileCompleted
   });
 
   factory UserModel.fromSupabaseUser(User user){
@@ -24,6 +27,9 @@ class UserModel extends UserEntity{
       name: map['name'] as String?,
       phone: map['phone'] as String?,
       birthdate: map['birthdate'] as String?,
+      gender: map['gender'] as String?,
+      apiUserId: map['api_user_id'] as int?,
+      isProfileCompleted: map['is_profile_completed'] as bool?,
     );
   }
 }

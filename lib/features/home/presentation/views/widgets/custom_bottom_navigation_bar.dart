@@ -1,5 +1,5 @@
-import 'package:docdoc/core/generated/app_colors.dart';
-import 'package:docdoc/core/generated/assets.dart';
+import 'package:docdoc/core/utils/app_colors.dart';
+import 'package:docdoc/core/utils/assets.dart';
 import 'package:docdoc/features/home/domain/entities/bottom_navigation_bar_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

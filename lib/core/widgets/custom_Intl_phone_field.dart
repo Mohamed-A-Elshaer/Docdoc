@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import '../generated/app_colors.dart';
-import '../generated/app_text_styles.dart';
+import '../utils/app_colors.dart';
+import '../utils/app_text_styles.dart';
 import 'custom_text_form_field.dart';
 
 class CustomIntlPhoneField extends FormField<PhoneNumber> {

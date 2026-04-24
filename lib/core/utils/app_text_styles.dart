@@ -1,4 +1,4 @@
-import 'package:docdoc/core/generated/app_colors.dart';
+import 'package:docdoc/core/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class TextStyles{

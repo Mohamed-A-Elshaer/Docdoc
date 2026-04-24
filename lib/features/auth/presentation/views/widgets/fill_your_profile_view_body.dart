@@ -1,5 +1,6 @@
-import 'package:docdoc/core/generated/assets.dart';
+import 'package:docdoc/core/utils/assets.dart';
 import 'package:docdoc/core/widgets/custom_button.dart';
+import 'package:docdoc/core/widgets/custom_drop_down_button_form_field.dart';
 import 'package:docdoc/core/widgets/custom_text_form_field.dart';
 import 'package:docdoc/features/auth/data/models/user_model.dart';
 import 'package:docdoc/features/auth/domain/entities/user_entity.dart';
@@ -7,6 +8,8 @@ import 'package:docdoc/features/auth/presentation/views/widgets/auth_header.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import '../../../../../core/helper_functions/build_error_bar.dart';
+import '../../../../../core/utils/app_text_styles.dart';
 import '../../../../../core/widgets/custom_Intl_phone_field.dart';
 import '../../../../../core/widgets/custom_date_picker_text_form_field.dart';
 import '../../cubits/fillYourProfile_cubits/fill_your_profile_cubit.dart';
@@ -26,6 +29,7 @@ class _FillYourProfileViewBodyState extends State<FillYourProfileViewBody> {
   String? name;
   String? phone;
   String? birthdate;
+  String? gender;
 
 
 
@@ -90,7 +94,17 @@ class _FillYourProfileViewBodyState extends State<FillYourProfileViewBody> {
                             phone = value?.completeNumber;
                           },
                         ),
-
+                        const SizedBox(height: 16),
+                        CustomDropDownButtonFormField(
+                            value: gender,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                gender = newValue;
+                              });
+                            },
+                            onSaved: (value) {
+                              gender = value;
+                            },),
                         const SizedBox(height: 63),
                         CustomButton(
                           text: 'Submit',
@@ -102,11 +116,8 @@ class _FillYourProfileViewBodyState extends State<FillYourProfileViewBody> {
                               setState(() {
                                 autovalidateMode = AutovalidateMode.always;
                               });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Please enter your phone number'),
-                                ),
-                              );
+                              buildErrorBar(context, 'Please enter your phone number');
+
                               return;
                             }
                             final updatedUser = UserModel(
@@ -115,6 +126,7 @@ class _FillYourProfileViewBodyState extends State<FillYourProfileViewBody> {
                               name: name ?? widget.user.name,
                               phone: phone!,
                               birthdate: birthdate ?? widget.user.birthdate,
+                              gender: gender ?? widget.user.gender,
                             );
                             context.read<FillYourProfileCubit>().submitProfile(
                               user: updatedUser,

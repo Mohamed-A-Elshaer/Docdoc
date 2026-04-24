@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../generated/app_colors.dart';
+import '../utils/app_colors.dart';
 
 class TopPageIcon extends StatelessWidget {
   final ScrollController scrollController;

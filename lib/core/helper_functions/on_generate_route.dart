@@ -12,7 +12,6 @@ import '../../features/bookAppoint/presentation/views/book_appoint_view.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/recommended_doctors/presentation/views/recommended_doctors_view.dart';
 import '../../features/speciality/presentation/views/doctor_speciality_view.dart';
-import '../../test_post.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings){
   switch(settings.name){
@@ -54,10 +53,12 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
 
 
     case BookAppointView.routeName:
-      return MaterialPageRoute(builder: (context)=>const BookAppointView());
+      final doctorModel = settings.arguments as DoctorModel;
+      return MaterialPageRoute(
+          builder: (context)=> BookAppointView(doctorModel:doctorModel ,),
+          settings: settings,
+      );
 
-    case TestPost.routeName:
-      return MaterialPageRoute(builder: (context)=>const TestPost());
 
     default:
       return MaterialPageRoute(builder: (context)=>const Scaffold());

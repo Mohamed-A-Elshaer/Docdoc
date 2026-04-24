@@ -23,7 +23,7 @@ class AboutDoctorPageView extends StatelessWidget{
       children: [
       AboutItem(doctorModel:doctorModel,),
       LocationItem(doctorModel: doctorModel,),
-      ReviewItem(),
+      ReviewItem(doctorId: doctorModel.id),
       ],
     );
   }

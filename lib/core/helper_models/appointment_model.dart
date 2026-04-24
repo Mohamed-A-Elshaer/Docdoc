@@ -1,5 +1,10 @@
-
 import 'doctor_model.dart';
+
+String _jsonToString(dynamic value) {
+  if (value == null) return '';
+  if (value is String) return value;
+  return value.toString();
+}
 
 class AppointmentModel {
   final int id;
@@ -23,16 +28,15 @@ class AppointmentModel {
 
 factory AppointmentModel.fromJson(Map<String,dynamic>json){
   return AppointmentModel(
-      id: json['id'],
-      doctor: DoctorModel.fromJson(json['doctor']),
-      appoint_time: json['appointment_time'],
-      appoint_end_time: json['appointment_end_time'],
-      status: json['status'],
-      notes: json['notes'],
-      appoint_price: json['appointment_price'],
-      patient: Patient.fromJson(json['patient'])
+      id: json['id'] is int ? json['id'] as int : int.tryParse(json['id'].toString()) ?? 0,
+      doctor: DoctorModel.fromJson(json['doctor'] as Map<String,dynamic>),
+      appoint_time: _jsonToString(json['appointment_time']),
+      appoint_end_time: _jsonToString(json['appointment_end_time']),
+      status: _jsonToString(json['status']),
+      notes: _jsonToString(json['notes']),
+      appoint_price: _jsonToString(json['appointment_price']),
+      patient: Patient.fromJson(json['patient'] as Map<String,dynamic>)
   );
-
 }
 }
 
@@ -53,11 +57,11 @@ Patient({
 
 factory Patient.fromJson(Map<String,dynamic>json){
   return Patient(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      gender: json['gender']
+      id: json['id'] is int ? json['id'] as int : int.tryParse(json['id'].toString()) ?? 0,
+      name: _jsonToString(json['name']),
+      email: _jsonToString(json['email']),
+      phone: _jsonToString(json['phone']),
+      gender: _jsonToString(json['gender'])
   );
 }
 }

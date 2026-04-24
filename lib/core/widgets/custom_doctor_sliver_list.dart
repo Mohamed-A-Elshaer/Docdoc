@@ -1,8 +1,10 @@
 import 'dart:developer';
 
-import 'package:docdoc/core/api_services/get_all_doctor_service.dart';
+import 'package:docdoc/core/api_services/doctor_module.dart';
 import 'package:docdoc/core/helper_models/doctor_model.dart';
 import 'package:docdoc/features/aboutDoctor/presentation/views/about_doctor_view.dart';
+import 'package:docdoc/features/doctor_discovery/domain/entities/doctor_filter_entity.dart';
+import 'package:docdoc/features/doctor_discovery/domain/usecases/apply_doctor_filters_usecase.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/custom_doctor_info_model.dart';
 
@@ -18,11 +20,13 @@ class CustomDoctorSliverList extends StatelessWidget{
     this.selectedSpeciality,
     this.selectedRating,
   });
+  static final ApplyDoctorFiltersUsecase _applyDoctorFiltersUsecase =
+      ApplyDoctorFiltersUsecase();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<DoctorModel>>(
-        future: GetAllDoctorsService().getAllDoctors(),
+        future: DoctorModule().getAllDoctorsWithMergedRatings(),
         builder: (context,snapshot){
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SliverToBoxAdapter(
@@ -51,46 +55,15 @@ class CustomDoctorSliverList extends StatelessWidget{
           }
 
           if (snapshot.hasData) {
-            List<DoctorModel> filteredAndSortedDoctors = snapshot.data!
-                .where((doctor) {
-                  // Base rating filter
-                  bool ratingMatch = isRecommendedView?
-                      doctor.ratingModel.rate >= 1.0 &&
-                      doctor.ratingModel.rate <= 5.0
-                      : doctor.ratingModel.rate >= 4.0 &&
-                       doctor.ratingModel.rate <= 5.0;
-                  
-                  // Speciality filter
-                  bool specialityMatch = true;
-                  if (selectedSpeciality != null && selectedSpeciality!.isNotEmpty) {
-                    specialityMatch = doctor.specialization.name.toLowerCase() == 
-                        selectedSpeciality!.toLowerCase();
-                  }
-                  
-                  // Rating filter from popup
-                  bool ratingFilterMatch = true;
-                  if (selectedRating != null && selectedRating!.isNotEmpty && selectedRating != 'All') {
-                    final ratingValue = double.tryParse(selectedRating!);
-                    if (ratingValue != null) {
-                      ratingFilterMatch = doctor.ratingModel.rate >= ratingValue && 
-                                         doctor.ratingModel.rate < ratingValue + 1;
-                    }
-                  }
-                  
-                  // Search query filter
-                  bool searchMatch = true;
-                  if (searchQuery != null && searchQuery!.isNotEmpty) {
-                    final query = searchQuery!.toLowerCase().trim();
-                    final nameMatch = doctor.name.toLowerCase().contains(query);
-                    final specialityMatch = doctor.specialization.name.toLowerCase().contains(query);
-                    final degreeMatch = doctor.degree.toLowerCase().contains(query);
-                    searchMatch = nameMatch || specialityMatch || degreeMatch;
-                  }
-                  
-                  return ratingMatch && specialityMatch && ratingFilterMatch && searchMatch;
-                })
-                .toList()
-              ..sort((a, b) => b.ratingModel.rate.compareTo(a.ratingModel.rate));
+            final filteredAndSortedDoctors = _applyDoctorFiltersUsecase(
+              doctors: snapshot.data!,
+              isRecommendedView: isRecommendedView,
+              searchQuery: searchQuery ?? '',
+              filter: DoctorFilterEntity(
+                selectedSpeciality: selectedSpeciality,
+                selectedRating: selectedRating,
+              ),
+            );
             
             if (filteredAndSortedDoctors.isEmpty) {
               return SliverToBoxAdapter(
