@@ -50,7 +50,6 @@ class _BookAppointViewBodyState extends State<BookAppointViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine title and button text based on current page
     final isDetailsPage = appointmentModel != null && currentPageIndex == 3;
     final title = isDetailsPage ? 'Details' : 'Book Appointment';
     final buttonText = isDetailsPage ? 'Done' : 'Continue';

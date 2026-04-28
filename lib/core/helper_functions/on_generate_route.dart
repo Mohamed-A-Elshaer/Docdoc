@@ -11,6 +11,7 @@ import '../../features/aboutDoctor/presentation/views/about_doctor_view.dart';
 import '../../features/bookAppoint/presentation/views/book_appoint_view.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/recommended_doctors/presentation/views/recommended_doctors_view.dart';
+import '../../features/search/presentation/views/search_view.dart';
 import '../../features/speciality/presentation/views/doctor_speciality_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings){
@@ -41,6 +42,13 @@ Route<dynamic> onGenerateRoute(RouteSettings settings){
       final speciality = settings.arguments as String?;
       return MaterialPageRoute(
         builder: (context) => RecommendedDoctorsView(initialSpeciality: speciality),
+        settings: settings,
+      );
+
+    case SearchView.routeName:
+      final initialQuery = settings.arguments as String?;
+      return MaterialPageRoute(
+        builder: (context) => SearchView(initialQuery: initialQuery),
         settings: settings,
       );
 

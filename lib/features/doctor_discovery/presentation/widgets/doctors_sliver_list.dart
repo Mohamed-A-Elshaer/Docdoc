@@ -8,10 +8,12 @@ class DoctorsSliverList extends StatelessWidget {
     super.key,
     this.isRecommendedView = true,
     required this.query,
+    this.onFilteredCountChanged,
   });
 
   final bool isRecommendedView;
   final DoctorDiscoveryQuery query;
+  final ValueChanged<int>? onFilteredCountChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class DoctorsSliverList extends StatelessWidget {
       searchQuery: query.searchQuery,
       selectedSpeciality: query.filter.selectedSpeciality,
       selectedRating: query.filter.selectedRating,
+      onFilteredCountChanged: onFilteredCountChanged,
     );
   }
 }

@@ -13,12 +13,14 @@ class CustomDoctorSliverList extends StatelessWidget{
   final String? searchQuery;
   final String? selectedSpeciality;
   final String? selectedRating;
+  final ValueChanged<int>? onFilteredCountChanged;
   const CustomDoctorSliverList({
     super.key,
     this.isRecommendedView=false, 
     this.searchQuery,
     this.selectedSpeciality,
     this.selectedRating,
+    this.onFilteredCountChanged,
   });
   static final ApplyDoctorFiltersUsecase _applyDoctorFiltersUsecase =
       ApplyDoctorFiltersUsecase();
@@ -64,6 +66,11 @@ class CustomDoctorSliverList extends StatelessWidget{
                 selectedRating: selectedRating,
               ),
             );
+            if (onFilteredCountChanged != null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                onFilteredCountChanged!(filteredAndSortedDoctors.length);
+              });
+            }
             
             if (filteredAndSortedDoctors.isEmpty) {
               return SliverToBoxAdapter(

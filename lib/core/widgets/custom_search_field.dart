@@ -10,6 +10,8 @@ class CustomSearchField extends StatelessWidget{
     TextStyle? hintStyle,
     this.controller,
     this.onChanged,
+    this.onSubmitted,
+    this.textInputAction,
     this.width,
   }) : hintStyle = hintStyle ?? TextStyles.medium12.copyWith(color: const Color(0xffC2C2C2));
   final String hintText;
@@ -18,6 +20,8 @@ class CustomSearchField extends StatelessWidget{
   final Color? fillColor;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final TextInputAction? textInputAction;
   final double? width;
 
   @override
@@ -28,6 +32,8 @@ class CustomSearchField extends StatelessWidget{
     child: TextField(
     controller: controller,
     onChanged: onChanged,
+    onSubmitted: onSubmitted,
+    textInputAction: textInputAction,
     decoration: InputDecoration(
     hintText: hintText,
     hintStyle:hintStyle,
@@ -46,7 +52,7 @@ class CustomSearchField extends StatelessWidget{
 
     static OutlineInputBorder buildOutlineInputBorder() {
       return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(22),
         borderSide: BorderSide(
           color: Colors.transparent
         )

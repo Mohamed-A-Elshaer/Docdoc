@@ -1,6 +1,7 @@
 import 'package:docdoc/core/utils/app_colors.dart';
 import 'package:docdoc/core/utils/assets.dart';
 import 'package:docdoc/features/home/domain/entities/bottom_navigation_bar_entity.dart';
+import 'package:docdoc/features/search/presentation/views/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'navigation_bar_item.dart';
@@ -92,6 +93,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             setState(() {
               selectedIndex = -1; // Or use a different index for the middle button
             });
+            Navigator.pushNamed(context, SearchView.routeName);
           },
           child: Container(
             width: 80,

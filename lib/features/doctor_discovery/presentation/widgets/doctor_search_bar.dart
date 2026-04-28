@@ -8,11 +8,13 @@ class DoctorSearchBar extends StatelessWidget {
     super.key,
     required this.controller,
     required this.onChanged,
+    this.onSubmitted,
     this.hintText = 'Search',
   });
 
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
+  final ValueChanged<String>? onSubmitted;
   final String hintText;
 
   @override
@@ -21,6 +23,8 @@ class DoctorSearchBar extends StatelessWidget {
       hintText: hintText,
       controller: controller,
       onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      textInputAction: TextInputAction.search,
       prefixIcon: SvgPicture.asset(
         Assets.imagesSearchIcon,
         height: 24,
