@@ -30,7 +30,4 @@ class SignUpView extends StatelessWidget {
       child: const SignUpViewBodyBlocConsumer(),
     );
   }
-
-
 }
-

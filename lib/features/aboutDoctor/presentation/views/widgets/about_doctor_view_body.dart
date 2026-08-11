@@ -16,7 +16,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../../core/widgets/custom_app_bar.dart';
 
-class AboutDoctorViewBody extends StatefulWidget{
+class AboutDoctorViewBody extends StatefulWidget {
   const AboutDoctorViewBody({super.key, this.doctorModel});
 
   final DoctorModel? doctorModel;
@@ -25,11 +25,11 @@ class AboutDoctorViewBody extends StatefulWidget{
   State<AboutDoctorViewBody> createState() => _AboutDoctorViewBodyState();
 }
 
-class _AboutDoctorViewBodyState extends State<AboutDoctorViewBody> with SingleTickerProviderStateMixin {
-
+class _AboutDoctorViewBodyState extends State<AboutDoctorViewBody>
+    with SingleTickerProviderStateMixin {
   late PageController pageController;
   late TabController tabController;
-  var currentPage=0;
+  var currentPage = 0;
   bool isSyncing = false;
   late DoctorModel _doctor;
   Map<String, dynamic>? _eligibleReviewAppointment;
@@ -42,20 +42,22 @@ class _AboutDoctorViewBodyState extends State<AboutDoctorViewBody> with SingleTi
       if (mounted) setState(() => _doctor = merged);
     });
     _refreshEligibleReviewAppointment();
-    pageController=PageController();
+    pageController = PageController();
     tabController = TabController(length: 3, vsync: this);
-    pageController.addListener((){
-      currentPage=pageController.page!.round();
+    pageController.addListener(() {
+      currentPage = pageController.page!.round();
     });
 
     tabController.addListener(() {
       if (!tabController.indexIsChanging && !isSyncing) {
         isSyncing = true;
-        pageController.animateToPage(
+        pageController
+            .animateToPage(
           tabController.index,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-        ).then((_) {
+        )
+            .then((_) {
           isSyncing = false;
         });
       }
@@ -69,7 +71,8 @@ class _AboutDoctorViewBodyState extends State<AboutDoctorViewBody> with SingleTi
       return;
     }
 
-    final eligible = await getIt<DatabaseService>().getEligibleReviewAppointment(
+    final eligible =
+        await getIt<DatabaseService>().getEligibleReviewAppointment(
       appointmentsPath: BackendEndpoint.addAppointmentData,
       ratingsPath: BackendEndpoint.ratings,
       userUid: user.id,
@@ -172,31 +175,38 @@ class _AboutDoctorViewBodyState extends State<AboutDoctorViewBody> with SingleTi
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        onTap: ()=>Navigator.of(context).pop(),
+        onTap: () => Navigator.of(context).pop(),
         title: _doctor.name,
-        leftPadding: 0,),
+        leftPadding: 0,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomDoctorInfoModel(
-                        doctorModel: _doctor,
-                        isRecommendedView: false,
-                      height: 74,
-                      width: 74,
-                      isAboutDoctorView: true,
-                      ),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomDoctorInfoModel(
+                    doctorModel: _doctor,
+                    isRecommendedView: false,
+                    height: 74,
+                    width: 74,
+                    isAboutDoctorView: true,
                   ),
-                  IconButton(
-                      onPressed: (){},
-                      icon: SvgPicture.asset(Assets.imagesMessageIcon,height: 24,width: 24,color: AppColors.primaryColor,)
-                  ),
-                ],
-              ),
-            const SizedBox(height: 24,),
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: SvgPicture.asset(
+                      Assets.imagesMessageIcon,
+                      height: 24,
+                      width: 24,
+                      color: AppColors.primaryColor,
+                    )),
+              ],
+            ),
+            const SizedBox(
+              height: 24,
+            ),
             TabBar(
               controller: tabController,
               indicatorColor: AppColors.primaryColor,
@@ -214,7 +224,9 @@ class _AboutDoctorViewBodyState extends State<AboutDoctorViewBody> with SingleTi
                 Tab(text: 'Reviews'),
               ],
             ),
-            const SizedBox(height: 32,),
+            const SizedBox(
+              height: 32,
+            ),
             Expanded(
               child: AboutDoctorPageView(
                 pageController: pageController,
@@ -226,20 +238,23 @@ class _AboutDoctorViewBodyState extends State<AboutDoctorViewBody> with SingleTi
                       isSyncing = false;
                     });
                   }
-                }, doctorModel: _doctor,),
+                },
+                doctorModel: _doctor,
+              ),
             ),
-           // const SizedBox(height: 16,),
+            // const SizedBox(height: 16,),
             CustomButton(
                 text: 'Make An Appointment',
-                onPressed: (){
-                  Navigator.pushNamed(context, BookAppointView.routeName, arguments: _doctor);
-                }
+                onPressed: () {
+                  Navigator.pushNamed(context, BookAppointView.routeName,
+                      arguments: _doctor);
+                }),
+            const SizedBox(
+              height: 16,
             ),
-            const SizedBox(height: 16,),
           ],
         ),
       ),
-
     );
   }
 }

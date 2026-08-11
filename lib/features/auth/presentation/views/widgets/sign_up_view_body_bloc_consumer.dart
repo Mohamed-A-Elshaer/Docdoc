@@ -15,29 +15,25 @@ class SignUpViewBodyBlocConsumer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-        builder: (context) {
-          return BlocConsumer<SignupsCubit,SignupsState>(
-            listener: (context, state) {
-              if (state is SignupsSuccess) {
-                Navigator.of(context).pushReplacementNamed(
-                  FillYourProfileView.routeName,
-                  arguments: state.userEntity,
-                );
-              }
-              if (state is SignupsFailure) {
-                buildErrorBar(context, state.message);
-              }  
-            },
-            builder: (context, state) {
-              return ModalProgressHUD(
-                  inAsyncCall: state is SignupsLoading?true:false,
-                  child: const SignUpViewBody());
-            },
-          );
-        }
-    );
+    return Builder(builder: (context) {
+      return BlocConsumer<SignupsCubit, SignupsState>(
+        listener: (context, state) {
+          if (state is SignupsSuccess) {
+            Navigator.of(context).pushReplacementNamed(
+              FillYourProfileView.routeName,
+              arguments: state.userEntity,
+            );
+          }
+          if (state is SignupsFailure) {
+            buildErrorBar(context, state.message);
+          }
+        },
+        builder: (context, state) {
+          return ModalProgressHUD(
+              inAsyncCall: state is SignupsLoading ? true : false,
+              child: const SignUpViewBody());
+        },
+      );
+    });
   }
-
-
 }

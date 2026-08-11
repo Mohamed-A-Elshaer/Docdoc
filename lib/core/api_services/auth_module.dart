@@ -6,8 +6,11 @@ import '../helper_classes/api.dart';
 import '../helper_models/environment.dart';
 import '../services/shared_preferences_singelton.dart';
 
-class AuthModule{
-  Future<void> signUpUserApi({required UserEntity user,required String password,required User supaUser})async {
+class AuthModule {
+  Future<void> signUpUserApi(
+      {required UserEntity user,
+      required String password,
+      required User supaUser}) async {
     // Register user via API
     try {
       // Validate required fields
@@ -27,7 +30,9 @@ class AuthModule{
           'name': user.name ?? '',
           'email': user.email,
           'phone': user.phone ?? '',
-          'gender': user.gender == 'Male' ? '0' : (user.gender == 'Female' ? '1' : ''),
+          'gender': user.gender == 'Male'
+              ? '0'
+              : (user.gender == 'Female' ? '1' : ''),
           'password': password,
           'password_confirmation': password,
         },
@@ -35,24 +40,23 @@ class AuthModule{
       );
 
       if (apiResponse is Map) {
-
         // Extract and store API token if present in response
         extractToken(apiResponse: apiResponse);
-
       }
 
       // Password is kept permanently in SharedPreferences for future API sign-ins
       // (especially important for OAuth users who can't remember their generated password)
       // This allows users to re-authenticate with API when tokens expire
-
     } catch (apiError) {
       log('Exception in API registration: ${apiError.toString()}');
       // Re-throw to be handled by submitProfile
-      throw CustomException(message: 'Failed to register user in API: ${apiError.toString()}');
+      throw CustomException(
+          message: 'Failed to register user in API: ${apiError.toString()}');
     }
   }
 
-  Future<void> signInUserApi({required String email, required String password}) async {
+  Future<void> signInUserApi(
+      {required String email, required String password}) async {
     // Sign in user via API
     try {
       // Validate required fields
@@ -78,12 +82,12 @@ class AuthModule{
       }
     } catch (apiError) {
       log('Exception in API login: ${apiError.toString()}');
-      throw CustomException(message: 'Failed to login user in API: ${apiError.toString()}');
+      throw CustomException(
+          message: 'Failed to login user in API: ${apiError.toString()}');
     }
   }
 
-
-  Future<void> extractToken({required dynamic apiResponse}) async{
+  Future<void> extractToken({required dynamic apiResponse}) async {
     String? apiToken;
 
     // Check if token is in data object (current response structure)
@@ -116,5 +120,4 @@ class AuthModule{
       throw Exception('Token not found in the response');
     }
   }
-
 }

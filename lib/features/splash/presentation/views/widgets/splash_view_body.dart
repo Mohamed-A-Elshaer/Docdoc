@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../auth/presentation/views/sign_in_view.dart';
 
-class SplashViewBody extends StatefulWidget{
+class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
 
   @override
@@ -23,33 +23,32 @@ class _SplashViewBodyState extends State<SplashViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth=MediaQuery.of(context).size.width;
-   return Scaffold(
-body: Center(
-  child: Stack(
-    alignment: Alignment.center,
-      children: [
-        SvgPicture.asset(Assets.imagesAppEmblem,width: screenWidth,fit: BoxFit.fitWidth,),
-       SvgPicture.asset(Assets.imagesAppLogo),
-
-      ],
-
-    ),
-),
-
-   );
+    final screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            SvgPicture.asset(
+              Assets.imagesAppEmblem,
+              width: screenWidth,
+              fit: BoxFit.fitWidth,
+            ),
+            SvgPicture.asset(Assets.imagesAppLogo),
+          ],
+        ),
+      ),
+    );
   }
 
   void executeNavigation() {
-    Future.delayed(const Duration(seconds: 3),(){
-      bool isOnBoardingViewSeen=Prefs.getBool(kIsOnBoardingViewSeen);
-       if(isOnBoardingViewSeen) {
-         Navigator.pushReplacementNamed(context, SignInView.routeName);
-       }
-       else {
-         Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
-       }
-       });
-    
+    Future.delayed(const Duration(seconds: 3), () {
+      bool isOnBoardingViewSeen = Prefs.getBool(kIsOnBoardingViewSeen);
+      if (isOnBoardingViewSeen) {
+        Navigator.pushReplacementNamed(context, SignInView.routeName);
+      } else {
+        Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
+      }
+    });
   }
 }

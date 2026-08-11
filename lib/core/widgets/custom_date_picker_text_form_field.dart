@@ -5,16 +5,19 @@ import '../utils/app_text_styles.dart';
 import 'custom_text_form_field.dart';
 
 class CustomDatePickerTextFormField extends StatefulWidget {
-  const CustomDatePickerTextFormField({super.key, this.onSaved, this.onDateChanged});
+  const CustomDatePickerTextFormField(
+      {super.key, this.onSaved, this.onDateChanged});
 
   final void Function(String?)? onSaved;
   final ValueChanged<DateTime?>? onDateChanged;
 
   @override
-  State<CustomDatePickerTextFormField> createState() => CustomDatePickerTextFormFieldState();
+  State<CustomDatePickerTextFormField> createState() =>
+      CustomDatePickerTextFormFieldState();
 }
 
-class CustomDatePickerTextFormFieldState extends State<CustomDatePickerTextFormField> {
+class CustomDatePickerTextFormFieldState
+    extends State<CustomDatePickerTextFormField> {
   final TextEditingController _controller = TextEditingController();
   DateTime? _selectedDate;
 
@@ -26,7 +29,8 @@ class CustomDatePickerTextFormFieldState extends State<CustomDatePickerTextFormF
 
   Future<void> _pickDate() async {
     final now = DateTime.now();
-    final DateTime initialDate = _selectedDate ?? DateTime(now.year - 18, now.month, now.day);
+    final DateTime initialDate =
+        _selectedDate ?? DateTime(now.year - 18, now.month, now.day);
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: initialDate,

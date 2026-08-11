@@ -41,7 +41,8 @@ class ApplyDoctorFiltersUsecase {
         final nameMatch = doctor.name.toLowerCase().contains(normalizedQuery);
         final specialityMatch =
             doctor.specialization.name.toLowerCase().contains(normalizedQuery);
-        final degreeMatch = doctor.degree.toLowerCase().contains(normalizedQuery);
+        final degreeMatch =
+            doctor.degree.toLowerCase().contains(normalizedQuery);
         matchesSearch = nameMatch || specialityMatch || degreeMatch;
       }
 

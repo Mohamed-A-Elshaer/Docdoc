@@ -13,25 +13,47 @@ import '../../../../../core/utils/assets.dart';
 import 'available_time_item.dart';
 
 class DateTimeSection extends StatefulWidget {
-  const DateTimeSection({super.key, required this.doctorId});
+  const DateTimeSection({
+    super.key,
+    required this.doctorId,
+    this.initialStartTime,
+    this.excludeAppointmentRowIdFromBookedSlots,
+    this.extraSpaceBeforeAvailableTime = 0,
+    this.extraSpaceBeforeAppointmentType = 0,
+  });
 
   final int doctorId;
+
+  /// When set (e.g. reschedule), selects date/time slots to match this instant.
+  final DateTime? initialStartTime;
+
+  /// Omits this Supabase `appointments.id` row when blocking booked time slots.
+  final int? excludeAppointmentRowIdFromBookedSlots;
+
+  /// Extra vertical gap before the "Available time" block (e.g. reschedule screen).
+  final double extraSpaceBeforeAvailableTime;
+
+  /// Extra vertical gap before the "Appointment Type" block (e.g. reschedule screen).
+  final double extraSpaceBeforeAppointmentType;
 
   @override
   State<DateTimeSection> createState() => _DateTimeSectionState();
 }
 
-class _DateTimeSectionState extends State<DateTimeSection> with AutomaticKeepAliveClientMixin {
-  final GlobalKey<SelectDateItemState> _selectDateItemKey = GlobalKey<SelectDateItemState>();
+class _DateTimeSectionState extends State<DateTimeSection>
+    with AutomaticKeepAliveClientMixin {
+  final GlobalKey<SelectDateItemState> _selectDateItemKey =
+      GlobalKey<SelectDateItemState>();
   int selectedAppointmentType = 0;
   List<Map<String, dynamic>> _doctorAppointments = [];
 
   @override
   void initState() {
     super.initState();
-    _loadDoctorAppointments();
-    // Initialize appointment type from bookingEntity if it exists
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _loadDoctorAppointments();
+      await _prefillFromInitialStartTime();
+      if (!mounted) return;
       final bookingEntity = context.read<BookingEntity>();
       if (bookingEntity.dateTimeEntity != null) {
         final appointType = bookingEntity.dateTimeEntity!.appointType;
@@ -48,13 +70,35 @@ class _DateTimeSectionState extends State<DateTimeSection> with AutomaticKeepAli
     });
   }
 
+  Future<void> _prefillFromInitialStartTime() async {
+    if (widget.initialStartTime == null) return;
+    final dt = widget.initialStartTime!.toLocal();
+    _selectDateItemKey.currentState?.selectDate(dt);
+    final dateFormatter = DateFormat('EEEE, dd MMMM yyyy');
+    final dateStr = dateFormatter.format(dt);
+    final timeStr = DateFormat('hh.mm a').format(dt);
+    if (!mounted) return;
+    final bookingEntity = context.read<BookingEntity>();
+    bookingEntity.dateTimeEntity = DateTimeEntity(
+      date: dateStr,
+      time: timeStr,
+      appointType: 'In Person',
+      isAvailableTimeChosen: true,
+    );
+    setState(() {
+      selectedAppointmentType = 0;
+    });
+  }
+
   Future<void> _loadDoctorAppointments() async {
     try {
       // Load all appointments for this doctor from Supabase (all users)
-      final list = await getIt<BookingRepo>().getAppointmentsByDoctorId(widget.doctorId);
+      final list =
+          await getIt<BookingRepo>().getAppointmentsByDoctorId(widget.doctorId);
       if (!mounted) return;
       setState(() {
-        _doctorAppointments = list; // each row has 'start_time', 'api_doctor_id', etc.
+        _doctorAppointments =
+            list; // each row has 'start_time', 'api_doctor_id', etc.
       });
     } catch (e) {
       // optional: debugPrint('Error loading doctor appointments: $e');
@@ -82,9 +126,16 @@ class _DateTimeSectionState extends State<DateTimeSection> with AutomaticKeepAli
   Set<String> _bookedTimeSlotsForDate(DateTime selectedDate) {
     var slotFormat = DateFormat('hh.mm a');
     final out = <String>{};
-    final dayStart = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    final dayStart =
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
     final dayEnd = dayStart.add(const Duration(days: 1));
     for (final row in _doctorAppointments) {
+      if (widget.excludeAppointmentRowIdFromBookedSlots != null) {
+        final rawId = row['id'];
+        final rowId =
+            rawId is int ? rawId : int.tryParse(rawId?.toString() ?? '');
+        if (rowId == widget.excludeAppointmentRowIdFromBookedSlots) continue;
+      }
       final dt = _parseStartTime(row['start_time']);
       if (dt == null) continue;
       final local = dt.isUtc ? dt.toLocal() : dt;
@@ -109,21 +160,22 @@ class _DateTimeSectionState extends State<DateTimeSection> with AutomaticKeepAli
 
   void _updateDateTimeEntity(BuildContext context) {
     final bookingEntity = context.read<BookingEntity>();
-    
+
     // Only update if there's already a dateTimeEntity with a selected time
-    if (bookingEntity.dateTimeEntity != null && 
+    if (bookingEntity.dateTimeEntity != null &&
         bookingEntity.dateTimeEntity?.isAvailableTimeChosen == true) {
-      
       // Get selected date from SelectDateItem
-      final selectedDate = _selectDateItemKey.currentState?.getSelectedDate() ?? DateTime.now();
-      
+      final selectedDate =
+          _selectDateItemKey.currentState?.getSelectedDate() ?? DateTime.now();
+
       // Format date as "Wednesday, 08 May 2023"
       final dateFormatter = DateFormat('EEEE, dd MMMM yyyy');
       final dateString = dateFormatter.format(selectedDate);
-      
+
       // Get appointment type string
-      final appointmentType = _getAppointmentTypeString(selectedAppointmentType);
-      
+      final appointmentType =
+          _getAppointmentTypeString(selectedAppointmentType);
+
       // Update dateTimeEntity with current date and appointment type, preserving the time
       bookingEntity.dateTimeEntity = DateTimeEntity(
         date: dateString,
@@ -142,37 +194,47 @@ class _DateTimeSectionState extends State<DateTimeSection> with AutomaticKeepAli
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Select Date',style: TextStyles.semiBold16.copyWith(color: const Color(0xff242424)),),
+            Text(
+              'Select Date',
+              style: TextStyles.semiBold16
+                  .copyWith(color: const Color(0xff242424)),
+            ),
             GestureDetector(
-             onTap: () async {
-    final today = DateTime.now();
+              onTap: () async {
+                final today = DateTime.now();
 
-    final selectedDate = await showDatePicker(
-    context: context,
-    initialDate: today,
-    firstDate: DateTime(today.year, today.month, today.day),
-    lastDate: DateTime(today.year, today.month, today.day)
-        .add(const Duration(days: 13)),
-    helpText: 'Select date',
-    cancelText: 'Cancel',
-    confirmText: 'OK',
-    );
+                final selectedDate = await showDatePicker(
+                  context: context,
+                  initialDate: today,
+                  firstDate: DateTime(today.year, today.month, today.day),
+                  lastDate: DateTime(today.year, today.month, today.day)
+                      .add(const Duration(days: 13)),
+                  helpText: 'Select date',
+                  cancelText: 'Cancel',
+                  confirmText: 'OK',
+                );
 
-    if (selectedDate != null) {
-    debugPrint('Selected date: $selectedDate');
-    // Update SelectDateItem with the selected date
-    _selectDateItemKey.currentState?.selectDate(selectedDate);
-    // Update dateTimeEntity if a time is already selected
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateDateTimeEntity(context);
-    });
-    }
-    },
-              child: Text('Set Manual',style: TextStyles.medium12.copyWith(color: AppColors.primaryColor),),
+                if (selectedDate != null) {
+                  debugPrint('Selected date: $selectedDate');
+                  // Update SelectDateItem with the selected date
+                  _selectDateItemKey.currentState?.selectDate(selectedDate);
+                  // Update dateTimeEntity if a time is already selected
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _updateDateTimeEntity(context);
+                  });
+                }
+              },
+              child: Text(
+                'Set Manual',
+                style:
+                    TextStyles.medium12.copyWith(color: AppColors.primaryColor),
+              ),
             )
           ],
         ),
-        const SizedBox(height: 24,),
+        const SizedBox(
+          height: 24,
+        ),
         SelectDateItem(
           key: _selectDateItemKey,
           onDateChanged: () {
@@ -180,75 +242,92 @@ class _DateTimeSectionState extends State<DateTimeSection> with AutomaticKeepAli
             _updateDateTimeEntity(context);
           },
         ),
-        const SizedBox(height: 14,),
+        const SizedBox(
+          height: 14,
+        ),
+        if (widget.extraSpaceBeforeAvailableTime > 0)
+          SizedBox(height: widget.extraSpaceBeforeAvailableTime),
         Align(
             alignment: Alignment.centerLeft,
-            child: Text('Available time',style: TextStyles.semiBold16.copyWith(color: const Color(0xff242424)),)
+            child: Text(
+              'Available time',
+              style: TextStyles.semiBold16
+                  .copyWith(color: const Color(0xff242424)),
+            )),
+        const SizedBox(
+          height: 14,
         ),
-        const SizedBox(height: 14,),
         AvailableTimeItem(
           selectDateItemKey: _selectDateItemKey,
           selectedAppointmentType: selectedAppointmentType,
           bookedTimeSlots: _bookedTimeSlotsForDate(
-            _selectDateItemKey.currentState?.getSelectedDate() ?? DateTime.now(),
+            _selectDateItemKey.currentState?.getSelectedDate() ??
+                DateTime.now(),
           ),
         ),
-        const SizedBox(height: 14,),
+        const SizedBox(
+          height: 14,
+        ),
+        if (widget.extraSpaceBeforeAppointmentType > 0)
+          SizedBox(height: widget.extraSpaceBeforeAppointmentType),
         Align(
             alignment: Alignment.centerLeft,
-            child: Text('Appointment Type',style: TextStyles.semiBold16.copyWith(color: const Color(0xff242424)),)
+            child: Text(
+              'Appointment Type',
+              style: TextStyles.semiBold16
+                  .copyWith(color: const Color(0xff242424)),
+            )),
+        const SizedBox(
+          height: 10,
         ),
-        const SizedBox(height: 10,),
         Expanded(
-          child:  Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: AppointTypeItem(
-                    image: Assets.imagesAppointInPerson,
-                    text: 'In Person',
-                    isSelected: selectedAppointmentType == 0,
-                    onTap: () {
-                      setState(() {
-                        selectedAppointmentType = 0;
-                      });
-                      _updateDateTimeEntity(context);
-                    },
-                  ),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: CustomPressableList(
+                  image: Assets.imagesAppointInPerson,
+                  text: 'In Person',
+                  isSelected: selectedAppointmentType == 0,
+                  onTap: () {
+                    setState(() {
+                      selectedAppointmentType = 0;
+                    });
+                    _updateDateTimeEntity(context);
+                  },
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: AppointTypeItem(
-                    image: Assets.imagesAppointVideoCall,
-                    text: 'Video Call',
-                    isSelected: selectedAppointmentType == 1,
-                    onTap: () {
-                      setState(() {
-                        selectedAppointmentType = 1;
-                      });
-                      _updateDateTimeEntity(context);
-                    },
-                  ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: CustomPressableList(
+                  image: Assets.imagesAppointVideoCall,
+                  text: 'Video Call',
+                  isSelected: selectedAppointmentType == 1,
+                  onTap: () {
+                    setState(() {
+                      selectedAppointmentType = 1;
+                    });
+                    _updateDateTimeEntity(context);
+                  },
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: AppointTypeItem(
-                    image: Assets.imagesAppointCall,
-                    text: 'Phone Call',
-                    isSelected: selectedAppointmentType == 2,
-                    onTap: () {
-                      setState(() {
-                        selectedAppointmentType = 2;
-                      });
-                      _updateDateTimeEntity(context);
-                    },
-                  ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: CustomPressableList(
+                  image: Assets.imagesAppointCall,
+                  text: 'Phone Call',
+                  isSelected: selectedAppointmentType == 2,
+                  onTap: () {
+                    setState(() {
+                      selectedAppointmentType = 2;
+                    });
+                    _updateDateTimeEntity(context);
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-
-
+        ),
       ],
     );
   }

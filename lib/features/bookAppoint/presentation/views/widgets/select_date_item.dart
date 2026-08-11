@@ -50,10 +50,10 @@ class SelectDateItemState extends State<SelectDateItem> {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final targetDate = DateTime(date.year, date.month, date.day);
-    
+
     // Calculate the difference in days
     final difference = targetDate.difference(today).inDays;
-    
+
     // Check if the date is within the 14-day range
     if (difference >= 0 && difference < 14) {
       setState(() {
@@ -72,14 +72,22 @@ class SelectDateItemState extends State<SelectDateItem> {
 
   String getWeekdayName(int weekday) {
     switch (weekday) {
-      case 1: return 'Mon';
-      case 2: return 'Tue';
-      case 3: return 'Wed';
-      case 4: return 'Thu';
-      case 5: return 'Fri';
-      case 6: return 'Sat';
-      case 7: return 'Sun';
-      default: return '';
+      case 1:
+        return 'Mon';
+      case 2:
+        return 'Tue';
+      case 3:
+        return 'Wed';
+      case 4:
+        return 'Thu';
+      case 5:
+        return 'Fri';
+      case 6:
+        return 'Sat';
+      case 7:
+        return 'Sun';
+      default:
+        return '';
     }
   }
 
@@ -120,12 +128,12 @@ class SelectDateItemState extends State<SelectDateItem> {
           IconButton(
             onPressed: selectedDayIndex > 0
                 ? () {
-              setState(() {
-                selectedDayIndex--;
-                scrollToIndex(selectedDayIndex);
-              });
-              widget.onDateChanged?.call();
-            }
+                    setState(() {
+                      selectedDayIndex--;
+                      scrollToIndex(selectedDayIndex);
+                    });
+                    widget.onDateChanged?.call();
+                  }
                 : null, // Disabled when at first day (today)
             icon: Icon(
               Icons.chevron_left,
@@ -158,8 +166,11 @@ class SelectDateItemState extends State<SelectDateItem> {
                       height: isSelected ? 67 : 55,
                       width: isSelected ? 60 : 50,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(isSelected ? 16 : 12),
-                        color: isSelected ? AppColors.primaryColor : const Color(0xffF2F4F7),
+                        borderRadius:
+                            BorderRadius.circular(isSelected ? 16 : 12),
+                        color: isSelected
+                            ? AppColors.primaryColor
+                            : const Color(0xffF2F4F7),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -167,7 +178,9 @@ class SelectDateItemState extends State<SelectDateItem> {
                           Text(
                             days[index].weekday,
                             style: TextStyles.regular14.copyWith(
-                              color: isSelected ? Colors.white : const Color(0xffC2C2C2),
+                              color: isSelected
+                                  ? Colors.white
+                                  : const Color(0xffC2C2C2),
                               fontSize: isSelected ? 14 : 12,
                             ),
                           ),
@@ -175,9 +188,13 @@ class SelectDateItemState extends State<SelectDateItem> {
                           Text(
                             days[index].day,
                             style: TextStyles.regular14.copyWith(
-                              color: isSelected ? Colors.white : const Color(0xffC2C2C2),
+                              color: isSelected
+                                  ? Colors.white
+                                  : const Color(0xffC2C2C2),
                               fontSize: isSelected ? 18 : 16,
-                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
                             ),
                           ),
                         ],
@@ -193,17 +210,19 @@ class SelectDateItemState extends State<SelectDateItem> {
           IconButton(
             onPressed: selectedDayIndex < days.length - 1
                 ? () {
-              setState(() {
-                selectedDayIndex++;
-                scrollToIndex(selectedDayIndex);
-              });
-              widget.onDateChanged?.call();
-            }
+                    setState(() {
+                      selectedDayIndex++;
+                      scrollToIndex(selectedDayIndex);
+                    });
+                    widget.onDateChanged?.call();
+                  }
                 : null, // Disabled when at last day
             icon: Icon(
               Icons.chevron_right,
               size: 28,
-              color: selectedDayIndex < days.length - 1 ? Colors.black : Colors.grey,
+              color: selectedDayIndex < days.length - 1
+                  ? Colors.black
+                  : Colors.grey,
             ),
           ),
         ],

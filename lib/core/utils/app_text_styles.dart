@@ -1,7 +1,7 @@
 import 'package:docdoc/core/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 
-abstract class TextStyles{
+abstract class TextStyles {
   //Bold
   static const TextStyle bold48 = TextStyle(
     fontFamily: 'Inter',
@@ -22,11 +22,10 @@ abstract class TextStyles{
   );
 
   static const TextStyle bold24 = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w700,
-    fontSize: 24,
-    color: AppColors.primaryColor
-  );
+      fontFamily: 'Inter',
+      fontWeight: FontWeight.w700,
+      fontSize: 24,
+      color: AppColors.primaryColor);
 
   static const TextStyle bold20 = TextStyle(
     fontFamily: 'Inter',
@@ -224,11 +223,10 @@ abstract class TextStyles{
   );
 
   static const TextStyle regular14 = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w400,
-    fontSize: 14,
-    color: Color(0xff757575)
-  );
+      fontFamily: 'Inter',
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      color: Color(0xff757575));
 
   static const TextStyle regular12 = TextStyle(
     fontFamily: 'Inter',
@@ -247,6 +245,4 @@ abstract class TextStyles{
     fontWeight: FontWeight.w400,
     fontSize: 10,
   );
-
-
 }

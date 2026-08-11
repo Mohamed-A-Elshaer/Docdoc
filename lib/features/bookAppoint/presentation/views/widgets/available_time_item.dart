@@ -17,6 +17,7 @@ class AvailableTimeItem extends StatefulWidget {
 
   final GlobalKey<SelectDateItemState> selectDateItemKey;
   final int selectedAppointmentType;
+
   /// Time slot strings (e.g. "05.30 PM") that are already booked for the selected date.
   final Set<String>? bookedTimeSlots;
 
@@ -48,7 +49,7 @@ class _AvailableTimeItemState extends State<AvailableTimeItem> {
     // Initialize selectedIndex from bookingEntity if it exists
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final bookingEntity = context.read<BookingEntity>();
-      if (bookingEntity.dateTimeEntity != null && 
+      if (bookingEntity.dateTimeEntity != null &&
           bookingEntity.dateTimeEntity?.isAvailableTimeChosen == true) {
         final selectedTime = bookingEntity.dateTimeEntity!.time;
         final index = timeSlots.indexOf(selectedTime);
@@ -76,7 +77,8 @@ class _AvailableTimeItemState extends State<AvailableTimeItem> {
 
   bool _isPastSlotForSelectedDate(String slot) {
     final selectedDate =
-        widget.selectDateItemKey.currentState?.getSelectedDate() ?? DateTime.now();
+        widget.selectDateItemKey.currentState?.getSelectedDate() ??
+            DateTime.now();
     final now = DateTime.now();
     final selectedDay =
         DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
@@ -111,7 +113,8 @@ class _AvailableTimeItemState extends State<AvailableTimeItem> {
         ),
         itemCount: timeSlots.length,
         itemBuilder: (context, index) {
-          final isBooked = widget.bookedTimeSlots?.contains(timeSlots[index]) ?? false;
+          final isBooked =
+              widget.bookedTimeSlots?.contains(timeSlots[index]) ?? false;
           final isPastSlot = _isPastSlotForSelectedDate(timeSlots[index]);
           final isUnavailable = isBooked || isPastSlot;
           return GestureDetector(
@@ -123,14 +126,17 @@ class _AvailableTimeItemState extends State<AvailableTimeItem> {
                       final bookingEntity = context.read<BookingEntity>();
 
                       // Get selected date from SelectDateItem
-                      final selectedDate = widget.selectDateItemKey.currentState?.getSelectedDate() ?? DateTime.now();
+                      final selectedDate = widget.selectDateItemKey.currentState
+                              ?.getSelectedDate() ??
+                          DateTime.now();
 
                       // Format date as "Wednesday, 08 May 2023"
                       final dateFormatter = DateFormat('EEEE, dd MMMM yyyy');
                       final dateString = dateFormatter.format(selectedDate);
 
                       // Get appointment type string
-                      final appointmentType = _getAppointmentTypeString(widget.selectedAppointmentType);
+                      final appointmentType = _getAppointmentTypeString(
+                          widget.selectedAppointmentType);
 
                       // Create or update dateTimeEntity with current selections
                       bookingEntity.dateTimeEntity = DateTimeEntity(

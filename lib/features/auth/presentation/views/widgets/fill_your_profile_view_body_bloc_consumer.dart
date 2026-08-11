@@ -18,24 +18,21 @@ class FillYourProfileViewBodyBlocConsumer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<FillYourProfileCubit, FillYourProfileState>(
         listener: (context, state) {
-          if (state is FillYourProfileSuccess) {
-            buildErrorBar(context, 'Profile saved successfully. Please login to continue.');
+      if (state is FillYourProfileSuccess) {
+        buildErrorBar(
+            context, 'Profile saved successfully. Please login to continue.');
 
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              SignInView.routeName,
-              (route) => false,
-            );
-          } else if (state is FillYourProfileFailure) {
-            buildErrorBar(context, state.message);
-          }
-        },
-        builder: (context, state) {
-          return ModalProgressHUD(
-              inAsyncCall: state is FillYourProfileLoading ? true : false,
-              child: FillYourProfileViewBody(user: userEntity)
-
-          );
-        }
-    );
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          SignInView.routeName,
+          (route) => false,
+        );
+      } else if (state is FillYourProfileFailure) {
+        buildErrorBar(context, state.message);
+      }
+    }, builder: (context, state) {
+      return ModalProgressHUD(
+          inAsyncCall: state is FillYourProfileLoading ? true : false,
+          child: FillYourProfileViewBody(user: userEntity));
+    });
   }
 }

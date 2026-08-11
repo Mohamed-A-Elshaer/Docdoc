@@ -48,7 +48,8 @@ class HomeDoctorSliverList extends StatelessWidget {
           for (final s in specialties) {
             allDoctors.addAll(s.doctors);
           }
-          allDoctors.sort((a, b) => b.ratingModel.rate.compareTo(a.ratingModel.rate));
+          allDoctors
+              .sort((a, b) => b.ratingModel.rate.compareTo(a.ratingModel.rate));
 
           if (allDoctors.isEmpty) {
             return const SliverToBoxAdapter(

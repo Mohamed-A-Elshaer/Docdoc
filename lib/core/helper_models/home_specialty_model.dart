@@ -14,7 +14,9 @@ class HomeSpecialtyModel {
   factory HomeSpecialtyModel.fromJson(Map<String, dynamic> json) {
     final doctorsList = json['doctors'] as List<dynamic>? ?? [];
     return HomeSpecialtyModel(
-      id: json['id'] is int ? json['id'] as int : int.tryParse(json['id'].toString()) ?? 0,
+      id: json['id'] is int
+          ? json['id'] as int
+          : int.tryParse(json['id'].toString()) ?? 0,
       name: json['name']?.toString() ?? '',
       doctors: doctorsList
           .map((e) => DoctorModel.fromJson(e as Map<String, dynamic>))

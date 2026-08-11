@@ -13,4 +13,3 @@ final class FillYourProfileFailure extends FillYourProfileState {
   FillYourProfileFailure({required this.message});
   final String message;
 }
-

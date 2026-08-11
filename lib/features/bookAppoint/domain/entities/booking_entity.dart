@@ -9,8 +9,8 @@ class BookingEntity extends ChangeNotifier {
   BookingEntity({
     DateTimeEntity? dateTimeEntity,
     PaymentOptionEntity? paymentOptionEntity,
-  }) : _dateTimeEntity = dateTimeEntity,
-       _paymentOptionEntity = paymentOptionEntity;
+  })  : _dateTimeEntity = dateTimeEntity,
+        _paymentOptionEntity = paymentOptionEntity;
 
   DateTimeEntity? get dateTimeEntity => _dateTimeEntity;
   PaymentOptionEntity? get paymentOptionEntity => _paymentOptionEntity;

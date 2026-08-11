@@ -50,14 +50,14 @@ class SupabaseDatabaseService implements DatabaseService {
     required String path,
     required Map<String, dynamic> data,
   }) async {
-    await Supabase.instance.client.from(path).upsert(data, onConflict: 'api_appointment_id');
+    await Supabase.instance.client
+        .from(path)
+        .upsert(data, onConflict: 'api_appointment_id');
   }
 
   @override
-  Future<Map<String, dynamic>?> getAppointmentData({
-    required String path,
-    required String appointID
-  }) async{
+  Future<Map<String, dynamic>?> getAppointmentData(
+      {required String path, required String appointID}) async {
     final response = await Supabase.instance.client
         .from(path)
         .select()
@@ -77,6 +77,14 @@ class SupabaseDatabaseService implements DatabaseService {
     required int doctorId,
   }) async {
     final client = Supabase.instance.client;
+
+    // Reuse shared transition logic (pending -> finished for overdue rows).
+    // This keeps review flow as a fallback trigger even if login-time update missed.
+    await markPastPendingAppointmentsAsFinishedForUser(
+      path: appointmentsPath,
+      userUid: userUid,
+    );
+
     final response = await client
         .from(appointmentsPath)
         .select('id, user_uid, api_doctor_id, end_time, status')
@@ -86,23 +94,6 @@ class SupabaseDatabaseService implements DatabaseService {
     final rows = (response as List)
         .map((e) => Map<String, dynamic>.from(e as Map))
         .toList();
-
-    final now = DateTime.now();
-    for (final row in rows) {
-      final rowId = row['id'];
-      final rowIdInt = rowId is int ? rowId : int.tryParse(rowId.toString());
-      if (rowIdInt == null) continue;
-
-      final status = row['status']?.toString().trim().toLowerCase() ?? '';
-      final endTime = _parseAppointmentDateTime(row['end_time']);
-      if (status == 'pending' && endTime != null && !now.isBefore(endTime)) {
-        await client
-            .from(appointmentsPath)
-            .update({'status': 'finished'})
-            .eq('id', rowIdInt);
-        row['status'] = 'finished';
-      }
-    }
 
     final finishedRows = rows.where((row) {
       final status = row['status']?.toString().trim().toLowerCase() ?? '';
@@ -157,21 +148,75 @@ class SupabaseDatabaseService implements DatabaseService {
     required String path,
     required int doctorId,
   }) async {
-    final response = await Supabase.instance.client
-        .from(path)
-        .select();
+    final response = await Supabase.instance.client.from(path).select();
     final list = response as List;
 
     // Filter by doctor id in Dart to be robust against column type differences
-    return list
+    return list.map((e) => Map<String, dynamic>.from(e as Map)).where((row) {
+      final raw = row['api_doctor_id'];
+      if (raw == null) return false;
+      final parsed = int.tryParse(raw.toString());
+      return parsed == doctorId;
+    }).toList();
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getAppointmentsForUser({
+    required String path,
+    required String userUid,
+  }) async {
+    final response = await Supabase.instance.client
+        .from(path)
+        .select()
+        .eq('user_uid', userUid)
+        .order('start_time', ascending: false);
+
+    final list = response as List;
+    return list.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  @override
+  Future<void> updateAppointmentById({
+    required String path,
+    required int id,
+    required Map<String, dynamic> data,
+  }) async {
+    await Supabase.instance.client.from(path).update(data).eq('id', id);
+  }
+
+  @override
+  Future<void> markPastPendingAppointmentsAsFinishedForUser({
+    required String path,
+    required String userUid,
+  }) async {
+    final client = Supabase.instance.client;
+    final response = await client
+        .from(path)
+        .select('id, end_time, status')
+        .eq('user_uid', userUid);
+
+    final rows = (response as List)
         .map((e) => Map<String, dynamic>.from(e as Map))
-        .where((row) {
-          final raw = row['api_doctor_id'];
-          if (raw == null) return false;
-          final parsed = int.tryParse(raw.toString());
-          return parsed == doctorId;
-        })
         .toList();
+
+    final now = DateTime.now();
+    for (final row in rows) {
+      final rowId = row['id'];
+      final rowIdInt = rowId is int ? rowId : int.tryParse(rowId.toString());
+      if (rowIdInt == null) continue;
+
+      final status = row['status']?.toString().trim().toLowerCase() ?? '';
+      if (status != 'pending') continue;
+
+      final endTime = _parseAppointmentDateTime(row['end_time']);
+      if (endTime == null) continue;
+
+      if (!now.isBefore(endTime)) {
+        await client
+            .from(path)
+            .update({'status': 'finished'}).eq('id', rowIdInt);
+      }
+    }
   }
 
   @override
@@ -203,7 +248,8 @@ class SupabaseDatabaseService implements DatabaseService {
       int latestReviewsCount = 0;
       for (final r in list) {
         final s = r['rating'];
-        final ratingVal = s is num ? s.toDouble() : double.tryParse(s.toString()) ?? 0;
+        final ratingVal =
+            s is num ? s.toDouble() : double.tryParse(s.toString()) ?? 0;
         sum += ratingVal;
         final uid = r['user_uid'];
         final isSeed = uid == null;
@@ -223,7 +269,8 @@ class SupabaseDatabaseService implements DatabaseService {
       final avg = sum / list.length;
       result[entry.key] = RatingModel.fromAggregate(
         average: avg,
-        userReviewCount: latestCreatedAt == null ? userReviewCount : latestReviewsCount,
+        userReviewCount:
+            latestCreatedAt == null ? userReviewCount : latestReviewsCount,
       );
     }
     return result;
@@ -253,11 +300,9 @@ class SupabaseDatabaseService implements DatabaseService {
 
     final hasAnyRating = rows.isNotEmpty;
 
-    final double seedRating =
-        displayedSeedRating.clamp(1.0, 5.0).toDouble();
-    final seedReviewsCount = displayedSeedReviewCount < 0
-        ? 0
-        : displayedSeedReviewCount;
+    final double seedRating = displayedSeedRating.clamp(1.0, 5.0).toDouble();
+    final seedReviewsCount =
+        displayedSeedReviewCount < 0 ? 0 : displayedSeedReviewCount;
     DateTime? latestCreatedAt;
     int latestReviewsCount = 0;
     for (final row in rows) {
@@ -266,18 +311,17 @@ class SupabaseDatabaseService implements DatabaseService {
       if (latestCreatedAt == null || createdAt.isAfter(latestCreatedAt)) {
         latestCreatedAt = createdAt;
         final raw = row['reviews_count'];
-        latestReviewsCount = raw is int
-            ? raw
-            : int.tryParse(raw?.toString() ?? '') ?? 0;
+        latestReviewsCount =
+            raw is int ? raw : int.tryParse(raw?.toString() ?? '') ?? 0;
       }
     }
     if (latestCreatedAt == null && rows.isNotEmpty) {
       final raw = rows.last['reviews_count'];
-      latestReviewsCount = raw is int
-          ? raw
-          : int.tryParse(raw?.toString() ?? '') ?? 0;
+      latestReviewsCount =
+          raw is int ? raw : int.tryParse(raw?.toString() ?? '') ?? 0;
     }
-    final nextReviewsCount = (hasAnyRating ? latestReviewsCount : seedReviewsCount) + 1;
+    final nextReviewsCount =
+        (hasAnyRating ? latestReviewsCount : seedReviewsCount) + 1;
     final userRatingInt = stars.clamp(1, 5);
 
     final existingAppointmentRating = await client
@@ -286,7 +330,8 @@ class SupabaseDatabaseService implements DatabaseService {
         .eq('appointment_id', appointmentId)
         .maybeSingle();
     if (existingAppointmentRating != null) {
-      throw Exception('Feedback has already been submitted for this appointment.');
+      throw Exception(
+          'Feedback has already been submitted for this appointment.');
     }
 
     // First real rating for this doctor: seed row (user_uid null) + user row.

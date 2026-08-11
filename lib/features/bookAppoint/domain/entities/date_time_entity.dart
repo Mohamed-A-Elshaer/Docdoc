@@ -1,4 +1,4 @@
-class DateTimeEntity{
+class DateTimeEntity {
   final String date;
   final String time;
   final String appointType;
@@ -10,7 +10,6 @@ class DateTimeEntity{
     required this.appointType,
     this.isAvailableTimeChosen,
   });
-
 
   String dateTimeToString() {
     return '$date\n$time';

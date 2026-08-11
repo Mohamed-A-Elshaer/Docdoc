@@ -1,6 +1,6 @@
 import 'doctor_model.dart';
 
-class SpecializationModel{
+class SpecializationModel {
   final int id;
   final String name;
   final List<DoctorModel> doctors;
@@ -20,5 +20,4 @@ class SpecializationModel{
           .toList(),
     );
   }
-
 }

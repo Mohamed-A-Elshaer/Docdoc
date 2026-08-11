@@ -9,16 +9,18 @@ import 'package:flutter/material.dart';
 
 import '../../../../doctor_discovery/data/models/doctor_discovery_query.dart';
 
-class RecommendedDoctorsViewBody extends StatefulWidget{
-   const RecommendedDoctorsViewBody({super.key, this.initialSpeciality});
+class RecommendedDoctorsViewBody extends StatefulWidget {
+  const RecommendedDoctorsViewBody({super.key, this.initialSpeciality});
 
   final String? initialSpeciality;
 
   @override
-  State<RecommendedDoctorsViewBody> createState() => _RecommendedDoctorsViewBodyState();
+  State<RecommendedDoctorsViewBody> createState() =>
+      _RecommendedDoctorsViewBodyState();
 }
 
-class _RecommendedDoctorsViewBodyState extends State<RecommendedDoctorsViewBody> {
+class _RecommendedDoctorsViewBodyState
+    extends State<RecommendedDoctorsViewBody> {
   final ScrollController controller = ScrollController();
   final TextEditingController searchController = TextEditingController();
   DoctorDiscoveryQuery query = const DoctorDiscoveryQuery();
@@ -44,62 +46,63 @@ class _RecommendedDoctorsViewBodyState extends State<RecommendedDoctorsViewBody>
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-     appBar: CustomAppBar(
-       onTap: ()=>Navigator.of(context).pop(),
-       title: 'Recommended Doctors',
-       leftPadding: 0,),
-     floatingActionButton: TopPageIcon(scrollController: controller),
-     body: CustomScrollView(
-       controller: controller,
-       slivers: [
-         SliverToBoxAdapter(
-           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18,vertical: 20),
-             child: Row(
-               children: [
-               Expanded(
-                child: DoctorSearchBar(
-                   controller: searchController,
-                   onChanged: (value) {
-                     setState(() {
-                       query = query.copyWith(searchQuery: value);
-                     });
-                   },
-                 ),
-               ),
-                 if (widget.initialSpeciality == null) ...[
-                   const SizedBox(width: 12,),
-                  DoctorFilterButton(
-                    onDone: (speciality, rating) {
-                      setState(() {
-                        query = query.copyWith(
-                          filter: DoctorFilterEntity(
-                            selectedSpeciality: speciality,
-                            selectedRating: rating,
-                          ),
-                        );
-                      });
-                    },
-                  ),
-                 ],
-               ],
-             ),
-           ),
-         ),
-         const SliverToBoxAdapter(
-           child: SizedBox(height: 24,),
-         ),
-
-        DoctorsSliverList(
-           isRecommendedView: true,
-           query: query,
-         ),
-
-       ],
-     )
-   );
+    return Scaffold(
+        appBar: CustomAppBar(
+          onTap: () => Navigator.of(context).pop(),
+          title: 'Recommended Doctors',
+          leftPadding: 0,
+        ),
+        floatingActionButton: TopPageIcon(scrollController: controller),
+        body: CustomScrollView(
+          controller: controller,
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: DoctorSearchBar(
+                        controller: searchController,
+                        onChanged: (value) {
+                          setState(() {
+                            query = query.copyWith(searchQuery: value);
+                          });
+                        },
+                      ),
+                    ),
+                    if (widget.initialSpeciality == null) ...[
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      DoctorFilterButton(
+                        onDone: (speciality, rating) {
+                          setState(() {
+                            query = query.copyWith(
+                              filter: DoctorFilterEntity(
+                                selectedSpeciality: speciality,
+                                selectedRating: rating,
+                              ),
+                            );
+                          });
+                        },
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 24,
+              ),
+            ),
+            DoctorsSliverList(
+              isRecommendedView: true,
+              query: query,
+            ),
+          ],
+        ));
   }
-
-
 }

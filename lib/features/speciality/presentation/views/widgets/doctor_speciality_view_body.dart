@@ -55,12 +55,12 @@ class DoctorSpecialityViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          title: 'Doctor Speciality',
-          leftPadding: 25,
-          onTap: ()=> Navigator.of(context).pop(),
+        title: 'Doctor Speciality',
+        leftPadding: 25,
+        onTap: () => Navigator.of(context).pop(),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 31,vertical:32 ),
+        padding: const EdgeInsets.symmetric(horizontal: 31, vertical: 32),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
@@ -83,7 +83,8 @@ class DoctorSpecialityViewBody extends StatelessWidget {
                 speciality: specialities[index]['speciality']!,
                 radius: 38,
                 imageSize: 38.67,
-                textStyle: TextStyles.regular14.copyWith(color: const Color(0xff242424)),
+                textStyle: TextStyles.regular14
+                    .copyWith(color: const Color(0xff242424)),
               ),
             );
           },

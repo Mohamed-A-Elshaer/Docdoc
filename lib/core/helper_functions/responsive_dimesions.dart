@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class ResponsiveDimensions {
-
- static double responsiveHeight(BuildContext context, double height) {
+  static double responsiveHeight(BuildContext context, double height) {
     return MediaQuery.of(context).size.height * (height / 812);
   }
 
   static double responsiveWidth(BuildContext context, double width) {
     return MediaQuery.of(context).size.width * (width / 375);
   }
-
 }

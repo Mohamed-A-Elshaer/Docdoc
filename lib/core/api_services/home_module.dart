@@ -7,11 +7,13 @@ class HomeModule {
   Future<List<HomeSpecialtyModel>> getHomePage() async {
     final response = await Api().get(
       url: '${Environment.apiBaseUrl}home/index',
-      token: null, // Api class will automatically use stored token from SharedPreferences
+      token:
+          null, // Api class will automatically use stored token from SharedPreferences
     );
     final List data = response['data'];
     return data
-        .map((json) => HomeSpecialtyModel.fromJson(json as Map<String, dynamic>))
+        .map(
+            (json) => HomeSpecialtyModel.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 

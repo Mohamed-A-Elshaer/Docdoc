@@ -1,6 +1,6 @@
-class AppointEntity{
-  AppointEntity({
-      required this.userUID,
+class AppointEntity {
+  AppointEntity(
+      {required this.userUID,
       required this.apiAppointID,
       required this.apiDoctorID,
       required this.apiPatientID,
@@ -8,8 +8,7 @@ class AppointEntity{
       required this.endTime,
       required this.status,
       this.notes,
-      required this.appointPrice
-  });
+      required this.appointPrice});
 
   final String userUID;
   final int apiAppointID;
@@ -21,9 +20,8 @@ class AppointEntity{
   final String? notes;
   final String appointPrice;
 
-
-  Map<String,dynamic> toMap(){
-    return{
+  Map<String, dynamic> toMap() {
+    return {
       'user_uid': userUID,
       'api_appointment_id': apiAppointID,
       'api_doctor_id': apiDoctorID,

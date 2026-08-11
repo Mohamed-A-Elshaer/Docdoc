@@ -1,6 +1,6 @@
 import 'dart:math';
 
-class DoctorModel{
+class DoctorModel {
   final int id;
   final String name;
   final String email;
@@ -17,8 +17,8 @@ class DoctorModel{
   final Specialization specialization;
   final City city;
 
-  DoctorModel({
-      required this.id,
+  DoctorModel(
+      {required this.id,
       required this.name,
       required this.email,
       required this.phone,
@@ -34,9 +34,10 @@ class DoctorModel{
       required this.specialization,
       required this.city});
 
-  
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
-    final id = json['id'] is int ? json['id'] as int : int.tryParse(json['id'].toString()) ?? 0;
+    final id = json['id'] is int
+        ? json['id'] as int
+        : int.tryParse(json['id'].toString()) ?? 0;
     return DoctorModel(
       id: id,
       name: json['name'],
@@ -77,15 +78,13 @@ class DoctorModel{
       city: city,
     );
   }
-
 }
 
-class RatingModel
-{
+class RatingModel {
   final double rate;
   final int count;
 
-  RatingModel({required this.rate,required this.count});
+  RatingModel({required this.rate, required this.count});
 
   /// Deterministic “display” rating before any real Supabase ratings exist for this doctor.
   factory RatingModel.generateFakeForDoctor(int doctorId) {
@@ -97,11 +96,11 @@ class RatingModel
     );
   }
 
-  factory RatingModel.generateFake(){
+  factory RatingModel.generateFake() {
     final double value = 1 + Random().nextDouble() * 4;
     return RatingModel(
-        rate: double.parse(value.toStringAsFixed(1)),
-        count: 20 + Random().nextInt(231),
+      rate: double.parse(value.toStringAsFixed(1)),
+      count: 20 + Random().nextInt(231),
     );
   }
 
@@ -117,48 +116,43 @@ class RatingModel
   }
 }
 
-class Specialization{
+class Specialization {
   final int id;
   final String name;
 
-  Specialization({required this.id,required this.name});
+  Specialization({required this.id, required this.name});
 
-  factory Specialization.fromJson(Map<String,dynamic> json){
-    return Specialization(
-        id: json['id'],
-        name: json['name']
-    );
+  factory Specialization.fromJson(Map<String, dynamic> json) {
+    return Specialization(id: json['id'], name: json['name']);
   }
 }
 
-class City{
+class City {
   final int id;
   final String name;
   final Governrate governrate;
 
-  City({required this.id,required this.name,required this.governrate});
+  City({required this.id, required this.name, required this.governrate});
 
-  factory City.fromJson(Map<String,dynamic> json){
+  factory City.fromJson(Map<String, dynamic> json) {
     return City(
-    id: json['id'],
-    name: json['name'],
-    governrate: Governrate.fromJson(json['governrate']),
+      id: json['id'],
+      name: json['name'],
+      governrate: Governrate.fromJson(json['governrate']),
     );
-
-
   }
 }
 
-class Governrate{
+class Governrate {
   final int id;
   final String name;
 
-  Governrate({required this.id,required this.name});
+  Governrate({required this.id, required this.name});
 
-  factory Governrate.fromJson(Map<String,dynamic> json){
+  factory Governrate.fromJson(Map<String, dynamic> json) {
     return Governrate(
       id: json['id'],
       name: json['name'],
     );
   }
-  }
+}

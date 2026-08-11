@@ -10,15 +10,14 @@ class FillYourProfileCubit extends Cubit<FillYourProfileState> {
 
   final AuthRepo authRepo;
 
-  Future<void> submitProfile({required UserEntity user,}) async {
+  Future<void> submitProfile({
+    required UserEntity user,
+  }) async {
     emit(FillYourProfileLoading());
-  
-  
-     final result= await authRepo.submitProfile(user: user);
+
+    final result = await authRepo.submitProfile(user: user);
     result.fold(
-            (failure)=> emit(FillYourProfileFailure(message: failure.message)),
-            (userEntity)=>emit(FillYourProfileSuccess()));
-    }
+        (failure) => emit(FillYourProfileFailure(message: failure.message)),
+        (userEntity) => emit(FillYourProfileSuccess()));
   }
-
-
+}

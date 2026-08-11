@@ -1,20 +1,18 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Prefs{
+class Prefs {
   static late SharedPreferences _instance;
 
-  static Future<void> init()async {
-    _instance=await SharedPreferences.getInstance();
+  static Future<void> init() async {
+    _instance = await SharedPreferences.getInstance();
   }
 
-  static setBool(String key,bool value){
-_instance.setBool(key, value);
-
+  static setBool(String key, bool value) {
+    _instance.setBool(key, value);
   }
 
-  static getBool(String key){
-  return _instance.getBool(key)?? false;
-
+  static getBool(String key) {
+    return _instance.getBool(key) ?? false;
   }
 
   static Future<void> setString(String key, String value) async {
@@ -28,5 +26,4 @@ _instance.setBool(key, value);
   static Future<void> remove(String key) async {
     await _instance.remove(key);
   }
-
 }

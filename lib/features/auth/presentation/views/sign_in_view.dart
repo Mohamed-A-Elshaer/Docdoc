@@ -17,7 +17,4 @@ class SignInView extends StatelessWidget {
       child: const SignInViewBodyBlocConsumer(),
     );
   }
-
-
 }
-

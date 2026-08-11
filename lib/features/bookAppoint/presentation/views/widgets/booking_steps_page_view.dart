@@ -21,26 +21,27 @@ class BookingStepsPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-          controller: pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: getPages().length,
-          itemBuilder: (context,index){
-            return getPages()[index];
-          }
-      );
-
+        controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: getPages().length,
+        itemBuilder: (context, index) {
+          return getPages()[index];
+        });
   }
 
-  List<Widget> getPages(){
+  List<Widget> getPages() {
     List<Widget> pages = [
       Padding(
-        padding: const EdgeInsets.symmetric(vertical: 21,horizontal: 24),
+        padding: const EdgeInsets.symmetric(vertical: 21, horizontal: 24),
         child: DateTimeSection(doctorId: doctorModel.id),
       ),
       const PaymentSection(),
-       Padding(
-        padding: const EdgeInsets.symmetric(vertical: 21,horizontal: 24),
-        child: ConfirmationSection(doctorModel:doctorModel ,),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 21, horizontal: 24),
+        child: ConfirmationSection(
+          doctorModel: doctorModel,
+          pageController: pageController,
+        ),
       ),
     ];
 
@@ -49,7 +50,7 @@ class BookingStepsPageView extends StatelessWidget {
     if (appointmentModel != null) {
       pages.add(
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 21,horizontal: 24),
+          padding: const EdgeInsets.symmetric(vertical: 21, horizontal: 24),
           child: BookingDetailsSection(appointmentModel: appointmentModel!),
         ),
       );

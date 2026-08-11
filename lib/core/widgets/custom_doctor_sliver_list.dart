@@ -8,7 +8,7 @@ import 'package:docdoc/features/doctor_discovery/domain/usecases/apply_doctor_fi
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/custom_doctor_info_model.dart';
 
-class CustomDoctorSliverList extends StatelessWidget{
+class CustomDoctorSliverList extends StatelessWidget {
   final bool isRecommendedView;
   final String? searchQuery;
   final String? selectedSpeciality;
@@ -16,7 +16,7 @@ class CustomDoctorSliverList extends StatelessWidget{
   final ValueChanged<int>? onFilteredCountChanged;
   const CustomDoctorSliverList({
     super.key,
-    this.isRecommendedView=false, 
+    this.isRecommendedView = false,
     this.searchQuery,
     this.selectedSpeciality,
     this.selectedRating,
@@ -29,7 +29,7 @@ class CustomDoctorSliverList extends StatelessWidget{
   Widget build(BuildContext context) {
     return FutureBuilder<List<DoctorModel>>(
         future: DoctorModule().getAllDoctorsWithMergedRatings(),
-        builder: (context,snapshot){
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SliverToBoxAdapter(
               child: Center(
@@ -71,7 +71,7 @@ class CustomDoctorSliverList extends StatelessWidget{
                 onFilteredCountChanged!(filteredAndSortedDoctors.length);
               });
             }
-            
+
             if (filteredAndSortedDoctors.isEmpty) {
               return SliverToBoxAdapter(
                 child: Center(
@@ -85,14 +85,15 @@ class CustomDoctorSliverList extends StatelessWidget{
                 ),
               );
             }
-            
+
             return SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   final doctor = filteredAndSortedDoctors[index];
                   return Padding(
                     padding: EdgeInsets.only(
-                      bottom: index < filteredAndSortedDoctors.length - 1 ? 26 : 0,
+                      bottom:
+                          index < filteredAndSortedDoctors.length - 1 ? 26 : 0,
                     ),
                     child: GestureDetector(
                       onTap: () {
@@ -125,8 +126,6 @@ class CustomDoctorSliverList extends StatelessWidget{
               ),
             ),
           );
-        }
-    );
+        });
   }
-
 }

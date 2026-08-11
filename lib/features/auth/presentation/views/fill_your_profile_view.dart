@@ -7,8 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubits/fillYourProfile_cubits/fill_your_profile_cubit.dart';
 
-class FillYourProfileView extends StatelessWidget{
-  static const routeName='fillYourProfile';
+class FillYourProfileView extends StatelessWidget {
+  static const routeName = 'fillYourProfile';
 
   const FillYourProfileView({super.key, required this.userEntity});
 
@@ -16,10 +16,11 @@ class FillYourProfileView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-   return  BlocProvider(
-     create: (_) => FillYourProfileCubit(getIt<AuthRepo>()),
-     child: FillYourProfileViewBodyBlocConsumer(userEntity: userEntity,),
-   );
+    return BlocProvider(
+      create: (_) => FillYourProfileCubit(getIt<AuthRepo>()),
+      child: FillYourProfileViewBodyBlocConsumer(
+        userEntity: userEntity,
+      ),
+    );
   }
-
 }

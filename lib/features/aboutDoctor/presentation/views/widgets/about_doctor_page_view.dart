@@ -4,7 +4,7 @@ import 'package:docdoc/features/aboutDoctor/presentation/views/widgets/location_
 import 'package:docdoc/features/aboutDoctor/presentation/views/widgets/review_item.dart';
 import 'package:flutter/cupertino.dart';
 
-class AboutDoctorPageView extends StatelessWidget{
+class AboutDoctorPageView extends StatelessWidget {
   final DoctorModel doctorModel;
   final PageController pageController;
   final Function(int)? onPageChanged;
@@ -21,12 +21,14 @@ class AboutDoctorPageView extends StatelessWidget{
       controller: pageController,
       onPageChanged: onPageChanged,
       children: [
-      AboutItem(doctorModel:doctorModel,),
-      LocationItem(doctorModel: doctorModel,),
-      ReviewItem(doctorId: doctorModel.id),
+        AboutItem(
+          doctorModel: doctorModel,
+        ),
+        LocationItem(
+          doctorModel: doctorModel,
+        ),
+        ReviewItem(doctorId: doctorModel.id),
       ],
     );
   }
-
-
 }

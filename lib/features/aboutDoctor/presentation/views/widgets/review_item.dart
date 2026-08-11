@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ReviewItem extends StatelessWidget{
+class ReviewItem extends StatelessWidget {
   const ReviewItem({super.key, required this.doctorId});
   final int doctorId;
 
@@ -21,7 +21,8 @@ class ReviewItem extends StatelessWidget{
           return Center(
             child: Text(
               'Failed to load reviews',
-              style: TextStyles.regular12.copyWith(color: const Color(0xff757575)),
+              style:
+                  TextStyles.regular12.copyWith(color: const Color(0xff757575)),
             ),
           );
         }
@@ -30,7 +31,8 @@ class ReviewItem extends StatelessWidget{
           return Center(
             child: Text(
               'No reviews yet',
-              style: TextStyles.regular12.copyWith(color: const Color(0xff757575)),
+              style:
+                  TextStyles.regular12.copyWith(color: const Color(0xff757575)),
             ),
           );
         }
@@ -39,7 +41,8 @@ class ReviewItem extends StatelessWidget{
           itemBuilder: (BuildContext context, int index) {
             final review = reviews[index];
             final rating = review['rating'];
-            final ratingValue = rating is int ? rating : int.tryParse(rating.toString()) ?? 0;
+            final ratingValue =
+                rating is int ? rating : int.tryParse(rating.toString()) ?? 0;
             final stars = ratingValue.clamp(0, 5);
             return Column(
               children: [
@@ -67,11 +70,13 @@ class ReviewItem extends StatelessWidget{
                             children: [
                               Text(
                                 review['reviewer_name'] as String? ?? 'Patient',
-                                style: TextStyles.semiBold16.copyWith(color: const Color(0xff242424)),
+                                style: TextStyles.semiBold16
+                                    .copyWith(color: const Color(0xff242424)),
                               ),
                               Text(
                                 _formatReviewDate(review['created_at']),
-                                style: TextStyles.regular12.copyWith(color: const Color(0xff9E9E9E)),
+                                style: TextStyles.regular12
+                                    .copyWith(color: const Color(0xff9E9E9E)),
                               ),
                             ],
                           ),
@@ -81,17 +86,21 @@ class ReviewItem extends StatelessWidget{
                               5,
                               (i) => Icon(
                                 Icons.star,
-                                color: i < stars ? const Color(0xffFFD600) : const Color(0xffE0E0E0),
+                                color: i < stars
+                                    ? const Color(0xffFFD600)
+                                    : const Color(0xffE0E0E0),
                                 size: 20,
                               ),
                             ),
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            (review['review']?.toString().trim().isNotEmpty ?? false)
+                            (review['review']?.toString().trim().isNotEmpty ??
+                                    false)
                                 ? review['review'].toString()
                                 : 'No review available for this rating',
-                            style: TextStyles.regular12.copyWith(color: const Color(0xff757575)),
+                            style: TextStyles.regular12
+                                .copyWith(color: const Color(0xff757575)),
                           )
                         ],
                       ),
@@ -164,10 +173,10 @@ class ReviewItem extends StatelessWidget{
     return reviews.map((r) {
       final uid = r['user_uid']?.toString();
       final merged = Map<String, dynamic>.from(r);
-      merged['reviewer_name'] =
-          (uid != null && nameByUid.containsKey(uid)) ? nameByUid[uid]! : 'Patient';
+      merged['reviewer_name'] = (uid != null && nameByUid.containsKey(uid))
+          ? nameByUid[uid]!
+          : 'Patient';
       return merged;
     }).toList();
   }
-
 }

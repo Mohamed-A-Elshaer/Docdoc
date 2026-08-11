@@ -20,6 +20,7 @@ class CustomTabButton extends StatelessWidget {
   final bool isActive;
   final bool isRatingTab;
   final String tabTitle;
+
   /// When true, the slot is faded and non-interactive (e.g. already booked).
   final bool isDisabled;
 
@@ -49,10 +50,12 @@ class CustomTabButton extends StatelessWidget {
                   children: [
                     Icon(Icons.star, size: 19, color: textColor),
                     const SizedBox(width: 2),
-                    Text(tabTitle, style: TextStyles.regular14.copyWith(color: textColor)),
+                    Text(tabTitle,
+                        style: TextStyles.regular14.copyWith(color: textColor)),
                   ],
                 )
-              : Text(tabTitle, style: TextStyles.regular14.copyWith(color: textColor)),
+              : Text(tabTitle,
+                  style: TextStyles.regular14.copyWith(color: textColor)),
         ),
       ),
     );

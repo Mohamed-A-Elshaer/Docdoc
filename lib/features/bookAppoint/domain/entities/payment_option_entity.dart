@@ -1,4 +1,4 @@
-class PaymentOptionEntity{
+class PaymentOptionEntity {
   final String paymentOption;
   final bool? isPaymentOptionChosen;
 

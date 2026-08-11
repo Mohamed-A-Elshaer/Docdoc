@@ -50,6 +50,11 @@ dependencies:
   flutter_dotenv: ^6.0.0
   envied: ^1.2.1
   envied_generator: ^1.1.1
+  flutter_stripe: ^13.0.0
+  dio: ^5.9.2
+  flutter_paypal_payment: ^1.0.8
+  firebase_core: ^4.13.0
+  firebase_messaging: ^16.5.0
 
 dev_dependencies:
   flutter_test:

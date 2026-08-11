@@ -15,9 +15,16 @@ import 'package:flutter/material.dart';
 import '../../../../doctor_discovery/data/models/doctor_discovery_query.dart';
 
 class SearchViewBody extends StatefulWidget {
-  const SearchViewBody({super.key, this.initialQuery});
+  const SearchViewBody({
+    super.key,
+    this.initialQuery,
+    this.showBackButton = true,
+    this.useInTabShell = false,
+  });
 
   final String? initialQuery;
+  final bool showBackButton;
+  final bool useInTabShell;
 
   @override
   State<SearchViewBody> createState() => _SearchViewBodyState();
@@ -72,8 +79,9 @@ class _SearchViewBodyState extends State<SearchViewBody> {
     await searchRepo.saveSearchQuery(submittedQuery);
     if (!mounted) return;
 
-    if (isResultsScreen) {
+    if (isResultsScreen || widget.useInTabShell) {
       setState(() {
+        isResultsScreen = true;
         query = query.copyWith(searchQuery: submittedQuery);
       });
       await _loadRecentSearches();
@@ -125,6 +133,8 @@ class _SearchViewBodyState extends State<SearchViewBody> {
           DoctorFilterButton(
             onDone: (speciality, rating) {
               setState(() {
+                // Apply filters and immediately show search results.
+                isResultsScreen = true;
                 selectedSpecialityIndex = -1;
                 query = query.copyWith(
                   filter: DoctorFilterEntity(
@@ -148,13 +158,15 @@ class _SearchViewBodyState extends State<SearchViewBody> {
         children: [
           Text(
             'Recent Search',
-            style: TextStyles.semiBold18.copyWith(color: const Color(0xff242424)),
+            style:
+                TextStyles.semiBold18.copyWith(color: const Color(0xff242424)),
           ),
           TextButton(
             onPressed: recentSearches.isEmpty ? null : _clearAllHistory,
             child: Text(
               'Clear All History',
-              style: TextStyles.regular12.copyWith(color: AppColors.primaryColor),
+              style:
+                  TextStyles.regular12.copyWith(color: AppColors.primaryColor),
             ),
           ),
         ],
@@ -174,7 +186,8 @@ class _SearchViewBodyState extends State<SearchViewBody> {
               onTap: () => _onSearchSubmitted(entry.query),
               child: Text(
                 entry.query,
-                style: TextStyles.regular14.copyWith(color: const Color(0xff9E9E9E)),
+                style: TextStyles.regular14
+                    .copyWith(color: const Color(0xff9E9E9E)),
               ),
             ),
           ),
@@ -198,7 +211,8 @@ class _SearchViewBodyState extends State<SearchViewBody> {
         itemBuilder: (context, index) {
           final speciality = specialities[index]['speciality'] as String;
           return Padding(
-            padding: EdgeInsets.only(right: index < specialities.length - 1 ? 12 : 0),
+            padding: EdgeInsets.only(
+                right: index < specialities.length - 1 ? 12 : 0),
             child: GestureDetector(
               onTap: () {
                 setState(() {
@@ -230,11 +244,13 @@ class _SearchViewBodyState extends State<SearchViewBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        onTap: () => Navigator.of(context).pop(),
+        onTap: widget.showBackButton ? () => Navigator.of(context).pop() : null,
+        showLeading: widget.showBackButton,
         title: 'Search',
-        leftPadding: 78,
+        leftPadding: widget.showBackButton ? 78 : 144,
       ),
-      body: isResultsScreen ? _buildResultsScreen() : _buildRecentSearchScreen(),
+      body:
+          isResultsScreen ? _buildResultsScreen() : _buildRecentSearchScreen(),
     );
   }
 
@@ -252,7 +268,8 @@ class _SearchViewBodyState extends State<SearchViewBody> {
             child: Center(
               child: Text(
                 'No recent search available',
-                style: TextStyles.regular14.copyWith(color: const Color(0xff9E9E9E)),
+                style: TextStyles.regular14
+                    .copyWith(color: const Color(0xff9E9E9E)),
               ),
             ),
           )
@@ -282,7 +299,8 @@ class _SearchViewBodyState extends State<SearchViewBody> {
               alignment: Alignment.centerLeft,
               child: Text(
                 '$foundDoctorsCount founds',
-                style: TextStyles.semiBold18.copyWith(color: const Color(0xff151515)),
+                style: TextStyles.semiBold18
+                    .copyWith(color: const Color(0xff151515)),
               ),
             ),
           ),
